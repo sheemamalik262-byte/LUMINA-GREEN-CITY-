@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — Lumina Green City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: var(--cream); }
+    .page-nav { background: linear-gradient(135deg, #071a38, var(--navy)); padding: 0 40px; display: flex; align-items: center; justify-content: space-between; height: 66px; box-shadow: 0 2px 20px rgba(15,37,71,0.35); position: sticky; top: 0; z-index: 100; }
+    .back-btn { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13px; padding: 8px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+    .back-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    .about-hero { background: linear-gradient(135deg, #071a38 0%, var(--navy) 60%, #1a3a6b 100%); padding: 70px 60px; position: relative; overflow: hidden; }
+    .about-hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+    .about-hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .about-hero h1 { font-family: 'Playfair Display', serif; font-size: 38px; color: #fff; margin-bottom: 16px; line-height: 1.2; }
+    .about-hero h1 span { color: var(--gold2); }
+    .about-hero p { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+
+    .section { padding: 48px 60px; }
+    .section.alt { background: var(--white); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--text); margin-bottom: 6px; }
+    .section-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .s-gold-line { width: 44px; height: 3px; background: linear-gradient(90deg, var(--navy), var(--gold)); border-radius: 2px; margin-bottom: 28px; }
+
+    /* Mission / Vision */
+    .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .mv-card { border-radius: 14px; padding: 28px; }
+    .mv-card.mission { background: var(--navy); color: #fff; }
+    .mv-card.vision { background: var(--cream); border: 1px solid var(--border); }
+    .mv-card h4 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 12px; }
+    .mv-card.mission h4 { color: var(--gold2); }
+    .mv-card.vision h4 { color: var(--navy); }
+    .mv-card p { font-size: 13px; line-height: 1.8; }
+    .mv-card.mission p { color: rgba(255,255,255,0.7); }
+    .mv-card.vision p { color: var(--text); }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 0; }
+    .stat-item { text-align: center; padding: 28px 16px; background: var(--cream); border: 1px solid var(--border); border-radius: 14px; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--navy); font-weight: 700; margin-bottom: 6px; }
+    .stat-num span { color: var(--gold); }
+    .stat-label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* Team */
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .team-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+    .team-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .team-avatar { height: 120px; background: linear-gradient(135deg, #071a38, #1a3a6b); display: flex; align-items: center; justify-content: center; }
+    .avatar-initials { width: 60px; height: 60px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 22px; color: var(--navy); font-weight: 700; }
+    .team-info { padding: 18px; }
+    .team-name { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--navy); margin-bottom: 4px; }
+    .team-role { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gold); margin-bottom: 8px; }
+    .team-bio { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* Contact Details */
+    .contact-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .contact-detail-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 24px; display: flex; gap: 16px; align-items: flex-start; transition: border-color 0.2s; }
+    .contact-detail-card:hover { border-color: var(--navy); }
+    .cdc-icon { width: 44px; height: 44px; background: rgba(15,37,71,0.08); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cdc-icon svg { color: var(--navy); }
+    .cdc-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 4px; }
+    .cdc-value { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+    .cdc-sub { font-size: 12px; color: var(--muted); }
+
+    /* Values */
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .value-item { padding: 22px; background: var(--cream); border: 1px solid var(--border); border-radius: 12px; }
+    .value-icon-graphics { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(15,37,71,0.05); border-radius: 8px; color: var(--navy); margin-bottom: 12px; }
+    .value-title { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--navy); margin-bottom: 6px; }
+    .value-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+    /* Redesigned Footer */
+    footer { background: #071a38; color: #ffffff; padding: 24px 40px; text-align: center; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.1); letter-spacing: 0.3px; line-height: 1.6; }
+
+    @media(max-width:992px){ .team-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media(max-width:768px){ .mv-grid,.team-grid,.stats-row,.contact-cards,.values-grid{grid-template-columns:1fr} .section{padding:32px 20px} .about-hero{padding:40px 24px} .about-hero h1{font-size:26px} }
+  </style>
+</head>
+<body>
+
+<nav class="page-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 110 110" fill="none" style="width:30px;height:30px;filter:drop-shadow(0 2px 6px rgba(184,134,78,0.5))">
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(184,134,78,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#b8864e" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#b8864e"/>
+    </svg>
+    <span class="nav-brand">Lumina <span>Green</span> City</span>
+  </div>
+  <div style="color:rgba(255,255,255,0.4);font-size:13px;">About Us</div>
+  <a href="index.html" class="back-btn">← Back to Home</a>
+</nav>
+
+<div class="about-hero">
+  <div class="about-hero-content">
+    <h1>About Lumina <span>Green</span> City</h1>
+    <p>Pakistan's next-generation residential housing scheme — designed to deliver luxury, community, and modern living in one thoughtfully planned destination.</p>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Our Mission & Vision</div>
+  <div class="s-gold-line"></div>
+  <div class="mv-grid">
+    <div class="mv-card mission">
+      <h4>Our Mission</h4>
+      <p>To build Pakistan's most resident-centric housing scheme — where every family finds a safe, beautiful, and well-connected home equipped with world-class amenities, sustainable infrastructure, and a thriving community spirit.</p>
+    </div>
+    <div class="mv-card vision">
+      <h4>Our Vision</h4>
+      <p>To transform urban living in Pakistan by creating landmark communities that blend green environments with modern infrastructure — setting a new benchmark for residential development in the country.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section alt">
+  <div class="section-title">Our Numbers</div>
+  <div class="section-sub">What Lumina Green City represents</div>
+  <div class="s-gold-line"></div>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-num">150<span>+</span></div>
+      <div class="stat-label">Total Properties</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Sectors</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">8<span>+</span></div>
+      <div class="stat-label">Amenity Types</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">500<span>+</span></div>
+      <div class="stat-label">Families Served</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Our Core Values</div>
+  <div class="section-sub">Principles that guide everything we build</div>
+  <div class="s-gold-line"></div>
+  <div class="values-grid">
+    <div class="value-item">
+      <div class="value-icon-graphics">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+      </div>
+      <div class="value-title">Quality Construction</div>
+      <div class="value-desc">Every brick, road, and structure is built to last. We use certified materials and experienced contractors with no compromise on quality.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon-graphics">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6a6 6 0 0 1 6 6c0 3.5-3 5.5-6 8-3-2.5-6-4.5-6-8a6 6 0 0 1 6-6z"/></svg>
+      </div>
+      <div class="value-title">Green Living</div>
+      <div class="value-desc">Parks, green belts, and tree-lined streets are part of our blueprint. We believe every resident deserves access to nature.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon-graphics">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="value-title">Safety First</div>
+      <div class="value-desc">24/7 security, gated access, CCTV across all sectors, and a trained security force ensure your family is always protected.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon-graphics">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M4.93 19.07L14.14 9.86"/></svg>
+      </div>
+      <div class="value-title">Transparency</div>
+      <div class="value-desc">All pricing, availability and documentation is clear and accessible. No hidden charges. No surprises. Just honest dealing.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon-graphics">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div class="value-title">Community Faith</div>
+      <div class="value-desc">Mosques, schools, and parks ensure a spiritually and socially connected community for residents of all ages.</div>
+    </div>
+    <div class="value-item">
+      <div class="value-icon-graphics">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-4V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v4a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4h4a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2z"/></svg>
+      </div>
+      <div class="value-title">Modern Infrastructure</div>
+      <div class="value-desc">Uninterrupted electricity, gas, water, wide roads and internet-ready infrastructure for a 21st century lifestyle.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section alt">
+  <div class="section-title">Leadership Team</div>
+  <div class="section-sub">The people behind Lumina Green City</div>
+  <div class="s-gold-line"></div>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar"><div class="avatar-initials">SM</div></div>
+      <div class="team-info">
+        <div class="team-name">Sheema Malik</div>
+        <div class="team-role">Chairman & Founder</div>
+        <div class="team-bio">25+ years in Pakistan's real estate industry. Visionary behind the Lumina Green City concept and its sustainable master plan.</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><div class="avatar-initials">UA</div></div>
+      <div class="team-info">
+        <div class="team-name">Ushna Ahmed</div>
+        <div class="team-role">CEO & Managing Director</div>
+        <div class="team-bio">MBA from LUMS. Oversees all operations, strategic planning, and resident relations to ensure a world-class luxury living experience.</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><div class="avatar-initials">FA</div></div>
+      <div class="team-info">
+        <div class="team-name">Fatimah</div>
+        <div class="team-role">Chief Strategy Officer</div>
+        <div class="team-bio">Expert in modern township design and sustainable urban policy. Directs strategic growth vectors across upcoming development sectors.</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar"><div class="avatar-initials">AR</div></div>
+      <div class="team-info">
+        <div class="team-name">Arooba</div>
+        <div class="team-role">Chief Operations Officer</div>
+        <div class="team-bio">Over 15 years overseeing infrastructure frameworks, mega-project coordination, and modern grid execution policies.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Contact Information</div>
+  <div class="section-sub">Reach our team — we're always here to help</div>
+  <div class="s-gold-line"></div>
+  <div class="contact-cards">
+    <div class="contact-detail-card">
+      <div class="cdc-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+      <div><div class="cdc-label">Sales Hotline</div><div class="cdc-value">+92-311-1234567</div><div class="cdc-sub">Mon–Sat · 9 AM to 6 PM</div></div>
+    </div>
+    <div class="contact-detail-card">
+      <div class="cdc-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div><div class="cdc-label">Email Address</div><div class="cdc-value">info@luminagreencity.pk</div><div class="cdc-sub">Response within 24 hours</div></div>
+    </div>
+    <div class="contact-detail-card">
+      <div class="cdc-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div><div class="cdc-label">Office Address</div><div class="cdc-value">Main Chowk, Ring Road, Lahore</div><div class="cdc-sub">Sales office open 6 days a week</div></div>
+    </div>
+    <div class="contact-detail-card">
+      <div class="cdc-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <div><div class="cdc-label">Site Office</div><div class="cdc-value">Plot No. 1, Sector A Gate</div><div class="cdc-sub">On-ground visits by appointment</div></div>
+    </div>
+    <div class="contact-detail-card">
+      <div class="cdc-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+      <div><div class="cdc-label">WhatsApp Business</div><div class="cdc-value">+92-300-9876543</div><div class="cdc-sub">Instant property queries via WhatsApp</div></div>
+    </div>
+    <div class="contact-detail-card">
+      <div class="cdc-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div><div class="cdc-label">Office Hours</div><div class="cdc-value">Monday – Saturday</div><div class="cdc-sub">9:00 AM – 6:00 PM · Closed Sundays</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Lumina Green City © 2025 · All rights reserved · info@luminagreencity.pk · +92-311-1234567
+</footer>
+
+</body>
+</html>

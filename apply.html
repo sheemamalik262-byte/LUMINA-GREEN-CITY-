@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply — Lumina Green City</title>
+  <meta name="description" content="Apply for housing at Lumina Green City. Submit your application and check your status anytime with your CNIC.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ───────────────── NAV ───────────────── -->
+<nav class="user-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 110 110" fill="none" style="width:32px;height:32px;filter:drop-shadow(0 2px 8px rgba(201,151,58,0.55))">
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(201,151,58,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#c9973a" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#c9973a"/>
+      <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+      <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+    </svg>
+    <span class="nav-brand">Lumina <span>Green</span> City</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html"class="nav-special-btn">Home</a>
+    <a href="properties.html"class="nav-special-btn">Properties</a>
+    <a href="search.html"class="nav-special-btn">Smart Search</a>
+    <a href="facilities.html"class="nav-special-btn">Facilities</a>
+    <a href="apply.html" class="active">Apply</a>
+    <a href="contact.html"class="nav-special-btn">Contact</a>
+    <a href="pricechart.html" class="nav-special-btn">📊 Price Chart</a>
+    <a href="chatbot.html" class="nav-special-btn">💬 AI Assistant</a>
+    <a href="aboutus.html" class="nav-special-btn">About Us</a>
+  </div>
+  <div class="nav-right">
+    <span class="admin-badge" id="welcomeName"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ───────────────── APPLY ───────────────── -->
+<div class="section" id="apply">
+  <div class="section-header">
+    <div class="section-eyebrow">Registration</div>
+    <div class="section-title">Apply for Housing</div>
+    <div class="section-sub">Fill the form below to submit your application. Check your status anytime with your CNIC.</div>
+  </div>
+  <div class="apply-box">
+    <label>Full Name</label>
+    <input type="text" id="a-name" placeholder="Your full name"/>
+    <label>CNIC Number</label>
+    <input type="text" id="a-cnic" placeholder="12345-1234567-1" oninput="fmtC(this)"/>
+    <label>Property Type</label>
+    <select id="a-type">
+      <option value="">-- Select Property --</option>
+      <optgroup label="Sector A">
+        <option>5 Marla House — Sector A</option>
+        <option>10 Marla House — Sector A</option>
+        <option>1 Kanal House — Sector A</option>
+        <option>Residential Plot — Sector A</option>
+      </optgroup>
+      <optgroup label="Sector B">
+        <option>5 Marla House — Sector B</option>
+        <option>10 Marla House — Sector B</option>
+        <option>1 Kanal House — Sector B</option>
+        <option>Residential Plot — Sector B</option>
+      </optgroup>
+      <optgroup label="Sector C">
+        <option>5 Marla House — Sector C</option>
+        <option>10 Marla House — Sector C</option>
+        <option>1 Kanal House — Sector C</option>
+        <option>Residential Plot — Sector C</option>
+      </optgroup>
+    </select>
+    <label>Phone Number</label>
+    <input type="text" id="a-phone" placeholder="03XX-XXXXXXX"/>
+    <button class="apply-submit" onclick="submitApp()">Submit Application →</button>
+    <div class="apply-msg" id="apply-msg"></div>
+  </div>
+</div>
+
+<!-- Status Check -->
+<div class="section alt">
+  <div class="section-header">
+    <div class="section-eyebrow">Tracking</div>
+    <div class="section-title">Check Application Status</div>
+  </div>
+  <div class="status-box">
+    <label style="display:block;font-size:10.5px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Your CNIC Number</label>
+    <input type="text" id="st-cnic" placeholder="12345-1234567-1" oninput="fmtC(this)" style="width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:'Inter',sans-serif;font-size:13px;outline:none;background:var(--cream)"/>
+    <button class="apply-submit" onclick="checkStatus()" style="margin-top:14px">Check Status →</button>
+    <div class="status-result" id="status-result"></div>
+  </div>
+</div>
+
+<footer>Lumina Green City © 2025 · All rights reserved · info@luminagreencity.pk · +92-311-1234567</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

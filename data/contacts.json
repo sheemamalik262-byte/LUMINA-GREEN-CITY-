@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Test User",
+    "email": "test@test.com",
+    "message": "This is a test message",
+    "date": "2026-05-30 18:29:18"
+  },
+  {
+    "name": "sheema",
+    "email": "freepalestine@gmail.com",
+    "message": "i want to visit your website",
+    "date": "2026-06-02 05:04:57"
+  },
+  {
+    "name": "Farzana Ashfaq",
+    "email": "fariamna@gmail.com",
+    "message": "tell me about security",
+    "date": "2026-06-02 06:13:48"
+  },
+  {
+    "name": "Farzana Ashfaq",
+    "email": "fariamna@gmail.com",
+    "message": "I'm curious about visiting so tell me when do i visit",
+    "date": "2026-06-02 06:21:39"
+  }
+]

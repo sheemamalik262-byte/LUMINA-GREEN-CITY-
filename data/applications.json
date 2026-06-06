@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Ali Khan",
+    "cnic": "12345-1234567-1",
+    "type": "5 Marla House \u2014 Sector A",
+    "phone": "0300-1234567",
+    "status": "Pending",
+    "date": "2026-05-30 18:29:18"
+  },
+  {
+    "name": "ali",
+    "cnic": "34433-3333333-3",
+    "type": "10 Marla House \u2014 Sector C",
+    "phone": "3333333333333333333333333",
+    "status": "Pending",
+    "date": "2026-05-30 18:35:33"
+  },
+  {
+    "name": "sheema",
+    "cnic": "12345-6789012-3",
+    "type": "10 Marla House \u2014 Sector C",
+    "phone": "1234567899",
+    "status": "Pending",
+    "date": "2026-06-01 15:16:20"
+  },
+  {
+    "name": "haha",
+    "cnic": "12345-6778900-9",
+    "type": "1 Kanal House \u2014 Sector C",
+    "phone": "03017265123",
+    "status": "Pending",
+    "date": "2026-06-01 21:35:16"
+  },
+  {
+    "name": "strawberry pie",
+    "cnic": "09887-6543210-9",
+    "type": "5 Marla House \u2014 Sector A",
+    "phone": "0000000000000",
+    "status": "Approved",
+    "date": "2026-06-02 00:15:05"
+  },
+  {
+    "name": "Arooba",
+    "cnic": "12345-6789012-3",
+    "type": "1 Kanal House \u2014 Sector C",
+    "phone": "9999999999",
+    "status": "Approved",
+    "date": "2026-06-02 05:02:11"
+  },
+  {
+    "name": "farzana",
+    "cnic": "09876-5432109-8",
+    "type": "1 Kanal House \u2014 Sector C",
+    "phone": "00000000000",
+    "status": "Pending",
+    "date": "2026-06-02 06:13:05"
+  }
+]

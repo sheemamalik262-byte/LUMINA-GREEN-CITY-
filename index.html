@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home — Lumina Green City</title>
+  <meta name="description" content="Lumina Green City — Pakistan's premier housing scheme offering premium residences across Sector A, B & C with world-class amenities.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ───────────────── NAV ───────────────── -->
+<nav class="user-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 110 110" fill="none" style="width:32px;height:32px;filter:drop-shadow(0 2px 8px rgba(201,151,58,0.55))">
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(201,151,58,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#c9973a" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#c9973a"/>
+      <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+      <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+    </svg>
+    <span class="nav-brand">Lumina <span>Green</span> City</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="sectors.html" class="nav-special-btn">Sectors</a> 
+    <a href="properties.html"class="nav-special-btn">Properties</a>
+    <a href="search.html"class="nav-special-btn">Smart Search</a>
+    <a href="facilities.html"class="nav-special-btn">Facilities</a>
+    <a href="apply.html"class="nav-special-btn">Apply</a>
+    <a href="contact.html" class="nav-special-btn">Contact</a>
+    <a href="pricechart.html" class="nav-special-btn">📊 Price Chart</a>
+    <a href="chatbot.html" class="nav-special-btn">💬 AI Assistant</a>
+    <a href="aboutus.html" class="nav-special-btn">About Us</a>
+  </div>
+  <div class="nav-right">
+    <span class="admin-badge" id="welcomeName"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ───────────────── HERO ───────────────── -->
+<div class="banner" id="home">
+  <div class="banner-content">
+    <div class="banner-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e0b96a" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Pakistan's Premier Housing Scheme</span>
+    </div>
+    <h1>Welcome to<br>Lumina <em>Green</em> City</h1>
+    <p class="banner-desc">Browse premium residences across Sector A, B &amp; C — from 5 Marla homes to grand 1 Kanal estates with private pools.</p>
+    <p class="banner-highlight">Our platform is powered by an advanced <strong style="color:rgba(255,255,255,0.75)">Smart Search system</strong> and a real-time <strong style="color:rgba(255,255,255,0.75)">AI Property Assistant</strong>, letting you instantly find properties, extract specifications, and get personalised guidance — all in one place.</p>
+    <div class="banner-btns">
+      <a href="properties.html" class="cta-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        Browse Properties
+      </a>
+      <a href="apply.html" class="cta-btn outline">Apply Now →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ───────────────── STATS STRIP ───────────────── -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
+    <div><div class="stat-val">150+</div><div class="stat-lbl">Total Properties</div></div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+    <div><div class="stat-val">3</div><div class="stat-lbl">Sectors</div></div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z"/></svg></div>
+    <div><div class="stat-val">8+</div><div class="stat-lbl">Amenity Types</div></div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+    <div><div class="stat-val">500+</div><div class="stat-lbl">Families Served</div></div>
+  </div>
+</div>
+
+<footer>Lumina Green City © 2025 · All rights reserved · info@luminagreencity.pk · +92-311-1234567</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Available Units & Sectors — Lumina Green City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===================== AVAILABLE UNITS & SECTORS STYLES ===================== */
+
+    /* SECTIONS */
+   
+    .section { padding: 48px 60px; }
+    .section.alt { background: var(--white); }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--text); margin-bottom: 6px; }
+    .section-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .s-gold-line { width: 44px; height: 3px; background: linear-gradient(90deg, var(--navy), var(--gold)); border-radius: 2px; margin-bottom: 24px; }
+     /* ─── BACK TO HOME BUTTON STYLES ─── */
+    .back-home-container {
+      padding: 32px 60px 0 60px;
+    }
+    .back-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0f2547; /* Matches var(--navy) */
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border: 1.5px solid #e4e9f0; /* Matches var(--border) */
+      border-radius: 8px;
+      background: #ffffff; /* Matches var(--white) */
+      transition: all 0.2s ease;
+    }
+    .back-home-btn:hover {
+      background: #f8fafc;
+      border-color: #0f2547;
+      transform: translateX(-3px);
+      box-shadow: 0 4px 12px rgba(15, 37, 71, 0.05);
+    }
+    .back-home-btn svg {
+      transition: transform 0.2s ease;
+    }
+    /* SECTOR SELECTOR BUTTONS */
+    .sector-tabs { display: flex; gap: 12px; margin-bottom: 24px; }
+    .sector-tab-btn { padding: 10px 24px; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer; transition: all 0.2s; }
+    .sector-tab-btn:hover { border-color: var(--navy); }
+    .sector-tab-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    /* DYNAMIC SECTOR DETAILS BLOCK */
+    .sector-summary-card { background: var(--cream); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 32px; }
+    .sector-summary-card h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); margin-bottom: 10px; }
+    .sector-summary-card p { font-size: 13px; color: var(--text); line-height: 1.6; margin: 4px 0; }
+
+    /* PLOT CARDS */
+    .plots-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .plot-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 22px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 2px 10px rgba(0,0,0,0.05); cursor: pointer; }
+    .plot-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-color: var(--gold); }
+    .section.alt .plot-card { background: var(--cream); }
+    .plot-sector { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--navy); margin-bottom: 8px; }
+    .plot-name { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--text); margin-bottom: 6px; }
+    .plot-detail { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.7; }
+    .plot-price { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--navy); font-weight: 700; margin-bottom: 12px; }
+    .plot-footer { display: flex; justify-content: space-between; align-items: center; }
+
+    /* PROPERTY DETAILS MODAL */
+    .modal { display: none; position: fixed; z-index: 200; inset: 0; background: rgba(7, 26, 56, 0.4); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; }
+    .modal-content { background: var(--white); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 520px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); animation: modalSlide 0.25s ease-out; }
+    @keyframes modalSlide { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--navy); }
+    .close-modal { background: none; border: none; font-size: 24px; color: var(--muted); cursor: pointer; line-height: 1; padding: 0; }
+    .close-modal:hover { color: var(--text); }
+    .modal-divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .spec-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
+    .spec-list li { font-size: 13px; color: var(--text); padding: 6px 0; display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); }
+    .spec-list li:last-child { border-bottom: none; }
+    .spec-list li strong { color: var(--navy); }
+
+    /* availability colors */
+    .dot-av  { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #2d9e6b; margin-right: 5px; }
+    .dot-rs  { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #e6a817; margin-right: 5px; }
+    .dot-sl  { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #c0392b; margin-right: 5px; }
+
+    @media(max-width:768px){
+      .plots-grid { grid-template-columns: 1fr; }
+      .section { padding: 32px 20px; }
+      .modal-content { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== AVAILABLE UNITS & SECTORS ===================== -->
+ <div class="back-home-container">
+  <a href="index.html" class="back-home-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Home
+  </a>
+</div>
+
+<div class="section" id="plots">
+  <div class="section-title">Available Units &amp; Sectors</div>
+  <div class="section-sub">Select a sector block to inspect sector details, specialized facilities, and inventory map</div>
+  <div class="s-gold-line"></div>
+
+  <div class="sector-tabs">
+    <button class="sector-tab-btn active" onclick="switchSector('Sector A', this)">Sector A</button>
+    <button class="sector-tab-btn" onclick="switchSector('Sector B', this)">Sector B</button>
+    <button class="sector-tab-btn" onclick="switchSector('Sector C', this)">Sector C</button>
+  </div>
+
+  <div class="sector-summary-card" id="sectorSummaryCard">
+    <h4 id="summarySectorTitle">Sector A Overview</h4>
+    <p><strong>Sector Core Infrastructure:</strong> 1 Dedicated Sector Masjid, 1 Sector Public School, and 1 Well-Maintained Public Sector Park.</p>
+    <p><strong>Centralized Shared Amenities:</strong> 1 Grand Central Jamia Masjid, 1 Grand Centralized Recreational Park, Multipurpose Commercial Restaurants, Public Swimming Pools for Boys, and Public Swimming Pools for Girls.</p>
+  </div>
+
+  <div class="plots-grid" id="dynamicPropertyGrid"></div>
+</div>
+
+<!-- ===================== PROPERTY DETAIL MODAL ===================== -->
+<div class="modal" id="propertyModal" onclick="if(event.target===this) closeModal()">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title" id="m-title">5 Marla House</div>
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+    </div>
+    <div class="modal-divider"></div>
+    <ul class="spec-list" id="m-specs"></ul>
+    <div class="modal-divider"></div>
+    <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--navy); margin-bottom: 8px; letter-spacing: 0.5px;">Proximity Indexes</p>
+    <div id="m-distances" style="font-size: 13px; color: var(--text); line-height: 1.6;"></div>
+  </div>
+</div>
+
+<script>
+  // ===================== MASTER PROPERTY DATA =====================
+  const sectorsList = ['Sector A', 'Sector B', 'Sector C'];
+  const masterProperties = [];
+
+  sectorsList.forEach(sec => {
+    let internalId = 1;
+    for (let i = 1; i <= 10; i++) {
+      let status = internalId % 4 === 0 ? 'Sold' : (internalId % 7 === 0 ? 'Reserved' : 'Available');
+      masterProperties.push({ id: `H-${sec.slice(-1)}-${String(internalId).padStart(3,'0')}`, sector: sec, name: '5 Marla House', type: 'House', price: 7000000 + (internalId * 45000), status, details: '2 Bed · 3 Bath · Drawing/Guest Room', specs: { 'Bedrooms': '2 Bedrooms (1 Master, 1 Standard)', 'Guest Rooms': '1 Drawing / Guest Room', 'Bathrooms': '3 Bathrooms', 'Facilities': 'Integrated Kitchen, TV Lounge, Car Porch' }, distances: { mosque: `${i*45}m`, school: `${120+i*25}m`, park: `${80+i*35}m` } });
+      internalId++;
+    }
+    for (let i = 1; i <= 10; i++) {
+      let status = internalId % 3 === 0 ? 'Sold' : (internalId % 8 === 0 ? 'Reserved' : 'Available');
+      masterProperties.push({ id: `H-${sec.slice(-1)}-${String(internalId).padStart(3,'0')}`, sector: sec, name: '10 Marla House', type: 'House', price: 11500000 + (internalId * 65000), status, details: '4 Bed · 5 Bath · Garden & Balcony', specs: { 'Bedrooms': '4 Bedrooms (1 Premium Master)', 'Guest Rooms': '1 Spacious Drawing Room', 'Bathrooms': '5 Luxury Attached Baths', 'Facilities': 'Front Garden, Balcony, Double Kitchen, Lounge' }, distances: { mosque: `${30+i*50}m`, school: `${90+i*40}m`, park: `${60+i*30}m` } });
+      internalId++;
+    }
+    for (let i = 1; i <= 10; i++) {
+      let status = internalId % 5 === 0 ? 'Sold' : (internalId % 9 === 0 ? 'Reserved' : 'Available');
+      masterProperties.push({ id: `H-${sec.slice(-1)}-${String(internalId).padStart(3,'0')}`, sector: sec, name: '1 Kanal House', type: 'House', price: 24000000 + (internalId * 95000), status, details: '5 Bed · Private Swimming Pool · Servant Quarters', specs: { 'Bedrooms': '5 Grand Bedrooms (Master Suite + Guest Wing)', 'Bathrooms': '7 Attached Baths', 'Luxury Perks': 'Private Pool, Servant Quarters, Front/Back Yards', 'Other': 'Guard Room, Double Kitchen, Multi-car Porch' }, distances: { mosque: `${100+i*30}m`, school: `${200+i*20}m`, park: `${40+i*25}m` } });
+      internalId++;
+    }
+    for (let i = 1; i <= 10; i++) {
+      let status = i % 3 === 0 ? 'Sold' : 'Available';
+      let sizeLabel = i <= 5 ? '5 Marla' : (i <= 8 ? '10 Marla' : '1 Kanal');
+      let basePrice = sizeLabel === '5 Marla' ? 3500000 : (sizeLabel === '10 Marla' ? 6000000 : 11000000);
+      masterProperties.push({ id: `P-${sec.slice(-1)}-${String(i).padStart(3,'0')}`, sector: sec, name: `${sizeLabel} Residential Plot`, type: 'Plot', price: basePrice + (i * 20000), status, details: 'Premium leveled ground · Ready for possession', specs: { 'Type': 'Residential Open Plot', 'Development': '100% Leveled & Ready for Construction', 'Utilities': 'Underground Electric, Gas, Water Lines Connected' }, distances: { mosque: `${i*75}m`, school: `${150+i*45}m`, park: `${100+i*50}m` } });
+    }
+  });
+
+  // ===================== SECTOR SWITCHING =====================
+  let selectedSectorGlobal = 'Sector A';
+
+  function switchSector(sectorName, btnElement) {
+    selectedSectorGlobal = sectorName;
+    document.querySelectorAll('.sector-tab-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+    document.getElementById('summarySectorTitle').innerText = `${sectorName} Overview`;
+    renderInventoryGrid();
+  }
+
+  // ===================== RENDER PLOT CARDS =====================
+  function renderInventoryGrid() {
+    const gridContainer = document.getElementById('dynamicPropertyGrid');
+    gridContainer.innerHTML = '';
+    const visibleUnits = masterProperties.filter(p => p.sector === selectedSectorGlobal);
+    visibleUnits.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'plot-card';
+      card.onclick = () => openPropertyModal(p);
+      let statusDotClass = p.status === 'Reserved' ? 'dot-rs' : (p.status === 'Sold' ? 'dot-sl' : 'dot-av');
+      card.innerHTML = `
+        <div class="plot-sector">${p.sector} · ${p.type}</div>
+        <div class="plot-name">${p.name}</div>
+        <div class="plot-detail">${p.details}</div>
+        <div class="plot-price">PKR ${p.price.toLocaleString()}</div>
+        <div class="plot-footer">
+          <span><span class="${statusDotClass}"></span><span style="font-size:12px;color:var(--text)">${p.status}</span></span>
+          <span class="badge av" style="font-size:11px;background:rgba(7,26,56,0.06);padding:2px 8px;border-radius:4px;">#${p.id}</span>
+        </div>`;
+      gridContainer.appendChild(card);
+    });
+  }
+
+  // ===================== PROPERTY DETAIL MODAL =====================
+  function openPropertyModal(p) {
+    document.getElementById('m-title').innerText = `${p.name} (#${p.id})`;
+    const sc = document.getElementById('m-specs');
+    sc.innerHTML = '';
+    for (const [k, v] of Object.entries(p.specs)) sc.innerHTML += `<li><strong>${k}:</strong> <span>${v}</span></li>`;
+    document.getElementById('m-distances').innerHTML = `📍 Nearest Mosque: <strong>${p.distances.mosque}</strong><br>🏫 Nearest School: <strong>${p.distances.school}</strong><br>🌳 Nearest Park: <strong>${p.distances.park}</strong>`;
+    document.getElementById('propertyModal').style.display = 'flex';
+  }
+
+  function closeModal() { document.getElementById('propertyModal').style.display = 'none'; }
+
+  // ===================== INIT =====================
+  window.addEventListener('DOMContentLoaded', renderInventoryGrid);
+
+  // Keyboard ESC to close modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('propertyModal').style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facilities — Lumina Green City</title>
+  <meta name="description" content="Explore world-class facilities and amenities at Lumina Green City — mosques, parks, schools, pools, hospital, mall and more.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ───────────────── NAV ───────────────── -->
+<nav class="user-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 110 110" fill="none" style="width:32px;height:32px;filter:drop-shadow(0 2px 8px rgba(201,151,58,0.55))">
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(201,151,58,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#c9973a" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#c9973a"/>
+      <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+      <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+    </svg>
+    <span class="nav-brand">Lumina <span>Green</span> City</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html"class="nav-special-btn">Home</a>
+    <a href="properties.html"class="nav-special-btn">Properties</a>
+    <a href="search.html"class="nav-special-btn">Smart Search</a>
+    <a href="facilities.html" class="active"class="nav-special-btn">Facilities</a>
+    <a href="apply.html"class="nav-special-btn">Apply</a>
+    <a href="contact.html"class="nav-special-btn">Contact</a>
+    <a href="pricechart.html" class="nav-special-btn">📊 Price Chart</a>
+    <a href="chatbot.html" class="nav-special-btn">💬 AI Assistant</a>
+    <a href="aboutus.html" class="nav-special-btn">About Us</a>
+  </div>
+  <div class="nav-right">
+    <span class="admin-badge" id="welcomeName"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ───────────────── FACILITIES ───────────────── -->
+<div class="section alt" id="facilities">
+  <div class="section-header">
+    <div class="section-eyebrow">Amenities</div>
+    <div class="section-title">Facilities &amp; Scheme Amenities</div>
+    <div class="section-sub">Click any card to explore photos, locations and detailed information for each facility.</div>
+  </div>
+  <div class="facilities-grid">
+
+    <!-- Mosques -->
+    <div class="facility-card" onclick="openFacility('mosque')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <ellipse cx="24" cy="18" rx="10" ry="10" fill="#0f2547" opacity="0.12"/>
+          <path d="M14 32 Q24 10 34 32" fill="#0f2547" opacity="0.9"/>
+          <rect x="18" y="30" width="12" height="10" rx="2" fill="#0f2547"/>
+          <rect x="21" y="33" width="6" height="7" rx="3" fill="#c9973a"/>
+          <rect x="10" y="28" width="4" height="14" rx="1.5" fill="#1a3a6b"/>
+          <rect x="34" y="28" width="4" height="14" rx="1.5" fill="#1a3a6b"/>
+          <circle cx="12" cy="26" r="2.5" fill="#c9973a"/>
+          <circle cx="36" cy="26" r="2.5" fill="#c9973a"/>
+          <path d="M21 18 Q24 13 27 18" stroke="#c9973a" stroke-width="1.2" fill="none"/>
+        </svg>
+      </div>
+      <div class="fac-name">Mosques</div>
+      <div class="fac-detail">1 Grand Jamia Masjid + 1 per sector</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Parks -->
+    <div class="facility-card" onclick="openFacility('parks')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="4" y="36" width="40" height="8" rx="2" fill="#2d9e6b" opacity="0.2"/>
+          <ellipse cx="24" cy="20" rx="10" ry="11" fill="#2d9e6b" opacity="0.85"/>
+          <ellipse cx="13" cy="24" rx="7" ry="8" fill="#27ae60" opacity="0.75"/>
+          <ellipse cx="35" cy="24" rx="7" ry="8" fill="#27ae60" opacity="0.75"/>
+          <rect x="22" y="30" width="4" height="10" rx="1.5" fill="#7d5a3c"/>
+          <rect x="10" y="34" width="3" height="7" rx="1" fill="#7d5a3c"/>
+          <rect x="35" y="34" width="3" height="7" rx="1" fill="#7d5a3c"/>
+        </svg>
+      </div>
+      <div class="fac-name">Parks</div>
+      <div class="fac-detail">1 Centralized Mega Park + 1 per sector</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Schools -->
+    <div class="facility-card" onclick="openFacility('schools')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="6" y="22" width="36" height="22" rx="2" fill="#0f2547" opacity="0.9"/>
+          <path d="M4 24 L24 10 L44 24" fill="#1a3a6b"/>
+          <rect x="20" y="30" width="8" height="14" rx="1" fill="#c9973a"/>
+          <rect x="9" y="27" width="8" height="8" rx="1" fill="rgba(255,255,255,0.15)"/>
+          <rect x="31" y="27" width="8" height="8" rx="1" fill="rgba(255,255,255,0.15)"/>
+          <rect x="22" y="14" width="4" height="6" fill="#c9973a" opacity="0.8"/>
+          <rect x="23" y="10" width="2" height="5" fill="#c9973a"/>
+        </svg>
+      </div>
+      <div class="fac-name">Schools</div>
+      <div class="fac-detail">1 dedicated school per sector block</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Swimming Pools -->
+    <div class="facility-card" onclick="openFacility('pools')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="6" y="16" width="36" height="24" rx="4" fill="#2980b9" opacity="0.15"/>
+          <rect x="8" y="18" width="32" height="20" rx="3" fill="#3498db" opacity="0.3"/>
+          <path d="M8 30 Q14 26 20 30 Q26 34 32 30 Q38 26 40 30 L40 38 Q38 34 32 38 Q26 42 20 38 Q14 34 8 38 Z" fill="#2980b9" opacity="0.6"/>
+          <rect x="10" y="12" width="4" height="10" rx="1" fill="#7f8c8d"/>
+          <rect x="34" y="12" width="4" height="10" rx="1" fill="#7f8c8d"/>
+          <rect x="8" y="12" width="32" height="3" rx="1" fill="#95a5a6"/>
+        </svg>
+      </div>
+      <div class="fac-name">Swimming Pools</div>
+      <div class="fac-detail">Separate pools for boys &amp; girls</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Restaurants -->
+    <div class="facility-card" onclick="openFacility('restaurants')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="10" y="28" width="28" height="14" rx="3" fill="#0f2547" opacity="0.85"/>
+          <rect x="8" y="26" width="32" height="5" rx="2" fill="#1a3a6b"/>
+          <path d="M16 26 L16 12 Q16 10 17 10 Q18 10 18 12 L18 26" stroke="#c9973a" stroke-width="1.5" fill="none"/>
+          <ellipse cx="17" cy="13" rx="5" ry="4" fill="#e74c3c" opacity="0.8"/>
+          <path d="M28 26 L28 10" stroke="#7f8c8d" stroke-width="1.5" fill="none"/>
+          <path d="M26 10 L26 18 Q26 22 28 22 Q30 22 30 18 L30 10" stroke="#7f8c8d" stroke-width="1.2" fill="none"/>
+        </svg>
+      </div>
+      <div class="fac-name">Restaurants</div>
+      <div class="fac-detail">Commercial dining zones on main street</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Medical -->
+    <div class="facility-card" onclick="openFacility('medical')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="8" y="14" width="32" height="28" rx="3" fill="#0f2547" opacity="0.85"/>
+          <path d="M16 8 L32 8 L32 16 L16 16 Z" fill="#1a3a6b"/>
+          <rect x="20" y="22" width="8" height="12" rx="1" fill="rgba(255,255,255,0.9)"/>
+          <rect x="16" y="26" width="16" height="4" rx="1" fill="rgba(255,255,255,0.9)"/>
+          <rect x="19" y="36" width="10" height="6" rx="1" fill="#c9973a" opacity="0.7"/>
+          <path d="M22 10 L26 10" stroke="#c9973a" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="fac-name">Medical Stores</div>
+      <div class="fac-detail">Pharmacies in each sector block</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Hospital -->
+    <div class="facility-card" onclick="openFacility('hospital')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="6" y="18" width="36" height="26" rx="3" fill="#0f2547" opacity="0.9"/>
+          <path d="M14 18 L14 12 Q14 8 18 8 L30 8 Q34 8 34 12 L34 18" fill="#1a3a6b"/>
+          <rect x="20" y="24" width="8" height="12" rx="1" fill="rgba(255,255,255,0.15)"/>
+          <rect x="22" y="10" width="4" height="9" rx="1" fill="white" opacity="0.9"/>
+          <rect x="19" y="13" width="10" height="3" rx="1" fill="white" opacity="0.9"/>
+          <rect x="23" y="28" width="2" height="5" fill="white" opacity="0.7"/>
+          <rect x="21" y="30" width="6" height="2" fill="white" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="fac-name">Hospital</div>
+      <div class="fac-detail">Central community hospital facility</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Roads & Utilities -->
+    <div class="facility-card" onclick="openFacility('infra')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="4" y="36" width="40" height="8" rx="2" fill="#34495e" opacity="0.85"/>
+          <rect x="20" y="36" width="8" height="8" fill="rgba(255,255,255,0.15)"/>
+          <path d="M14 36 L8 8" stroke="#7f8c8d" stroke-width="2" stroke-linecap="round"/>
+          <path d="M34 36 L40 8" stroke="#7f8c8d" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="8" cy="7" r="3" fill="#f1c40f" opacity="0.9"/>
+          <circle cx="40" cy="7" r="3" fill="#f1c40f" opacity="0.9"/>
+          <circle cx="24" cy="16" r="2" fill="#e74c3c" opacity="0.8"/>
+          <circle cx="24" cy="24" r="2" fill="#f1c40f" opacity="0.8"/>
+          <circle cx="24" cy="32" r="2" fill="#2d9e6b" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="fac-name">Roads &amp; Utilities</div>
+      <div class="fac-detail">40ft &amp; 60ft roads · Gas, Water, Power</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Recreational Spaces -->
+    <div class="facility-card" onclick="openFacility('recreational')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <circle cx="24" cy="22" r="12" fill="#8e44ad" opacity="0.15"/>
+          <path d="M14 32 Q24 12 34 32" fill="#8e44ad" opacity="0.7"/>
+          <circle cx="24" cy="13" r="4" fill="#9b59b6"/>
+          <rect x="10" y="30" width="28" height="4" rx="2" fill="#6c3483"/>
+          <circle cx="14" cy="38" r="3" fill="#8e44ad" opacity="0.8"/>
+          <circle cx="24" cy="40" r="3" fill="#8e44ad" opacity="0.8"/>
+          <circle cx="34" cy="38" r="3" fill="#8e44ad" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="fac-name">Recreational Spaces</div>
+      <div class="fac-detail">Sports courts, gym &amp; leisure zones for all ages</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Lumina Grand Mall -->
+    <div class="facility-card" onclick="openFacility('mall')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="4" y="20" width="40" height="24" rx="3" fill="#0f2547" opacity="0.85"/>
+          <rect x="4" y="16" width="40" height="7" rx="2" fill="#1a3a6b"/>
+          <path d="M4 16 L24 6 L44 16" fill="#071224" stroke="#c9973a" stroke-width="1.5"/>
+          <rect x="10" y="27" width="7" height="10" rx="1" fill="rgba(255,255,255,0.12)"/>
+          <rect x="20" y="27" width="8" height="10" rx="1" fill="rgba(255,255,255,0.12)"/>
+          <rect x="31" y="27" width="7" height="10" rx="1" fill="rgba(255,255,255,0.12)"/>
+          <rect x="20" y="33" width="8" height="11" rx="1" fill="#c9973a" opacity="0.7"/>
+          <rect x="8" y="14" width="6" height="4" rx="1" fill="#c9973a" opacity="0.5"/>
+          <rect x="34" y="14" width="6" height="4" rx="1" fill="#c9973a" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="fac-name">Lumina Grand Mall</div>
+      <div class="fac-detail">Pakistan's only vertical living mall</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+    <!-- Scheme Map -->
+    <div class="facility-card" onclick="openFacility('map')">
+      <div class="fac-icon">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" width="30" height="30">
+          <rect x="4" y="8" width="40" height="32" rx="3" stroke="#0f2547" stroke-width="1.8" fill="rgba(15,37,71,0.06)"/>
+          <line x1="24" y1="8" x2="24" y2="40" stroke="#c9973a" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="4" y1="24" x2="44" y2="24" stroke="#c9973a" stroke-width="1" stroke-dasharray="3,3"/>
+          <rect x="7" y="11" width="14" height="10" rx="1.5" fill="#0f2547" opacity="0.18"/>
+          <rect x="27" y="11" width="14" height="10" rx="1.5" fill="#1a3a6b" opacity="0.18"/>
+          <rect x="7" y="26" width="14" height="10" rx="1.5" fill="#1a3a6b" opacity="0.18"/>
+          <rect x="27" y="26" width="14" height="10" rx="1.5" fill="#0f2547" opacity="0.18"/>
+          <circle cx="24" cy="24" r="4" fill="#c9973a"/>
+        </svg>
+      </div>
+      <div class="fac-name">Scheme Map</div>
+      <div class="fac-detail">Full layout map — coming soon</div>
+      <div class="fac-arrow">View Details →</div>
+    </div>
+
+  </div>
+</div>
+
+<footer>Lumina Green City © 2025 · All rights reserved · info@luminagreencity.pk · +92-311-1234567</footer>
+
+<!-- ═══════════════ ALL FACILITY OVERLAYS ═══════════════ -->
+
+<!-- MOSQUE -->
+<div class="fac-overlay" id="fac-mosque" onclick="if(event.target===this)closeFac('mosque')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Mosques — Lumina Green City</h2><p>1 Grand Jamia Masjid + 1 dedicated masjid per sector</p></div>
+      <button class="fac-close" onclick="closeFac('mosque')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('mosque-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('mosque-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="mosque-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://bahriatown.com/wp-content/uploads/2021/11/2-3.jpg" alt="Grand Jamia Masjid" onerror="this.style.background='linear-gradient(135deg,#071224,#1a3a6b)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Central · Grand Jamia</div>
+            <div class="fac-card-title">Grand Jamia Masjid</div>
+            <div class="fac-card-info">
+              <span>📍 Central Zone, Main Boulevard</span>
+              <span>🕌 Capacity: 2,000+ worshippers</span>
+              <span>🚗 Accessible from all 3 sectors</span>
+              <span>🕐 All 5 daily prayers with Jummah</span>
+              <span>🌿 Full wuzu area &amp; ablution garden</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse1.mm.bing.net/th/id/OIP.PSqNzxEljP6M2ThTMHV9ggHaE8?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sector A Masjid" onerror="this.style.background='linear-gradient(135deg,#0f2547,#1a4a80)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector A</div>
+            <div class="fac-card-title">Sector A Masjid</div>
+            <div class="fac-card-info">
+              <span>📍 Block A-3, Near Sector Park</span>
+              <span>🕌 Capacity: 300 worshippers</span>
+              <span>🚶 Walking distance from all A-block homes</span>
+              <span>🌿 Landscaped courtyard &amp; wuzu area</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse1.mm.bing.net/th/id/OIP.StchSWcsyditjT077bGQ0wHaE7?r=0&cb=thfc1falcon&w=550&h=366&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sector B Masjid" onerror="this.style.background='linear-gradient(135deg,#0f2547,#2a4a80)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector B</div>
+            <div class="fac-card-title">Sector B Masjid</div>
+            <div class="fac-card-info">
+              <span>📍 Block B-5, Central Road</span>
+              <span>🕌 Capacity: 300 worshippers</span>
+              <span>🚶 5-min walk from B-block plots</span>
+              <span>📚 Madrassa &amp; Quran classes available</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse3.mm.bing.net/th/id/OIP.5yKhqthQPHUdsKvpKv8zQwHaEo?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sector C Masjid" onerror="this.style.background='linear-gradient(135deg,#0f2547,#1a3060)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector C</div>
+            <div class="fac-card-title">Sector C Masjid</div>
+            <div class="fac-card-info">
+              <span>📍 Block C-2, Greenery Lane</span>
+              <span>🕌 Capacity: 300 worshippers</span>
+              <span>🚶 3-min walk from C-block plots</span>
+              <span>🌙 Eid ground adjacent to mosque</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe or use arrows to see all 4 mosques</div>
+    </div>
+  </div>
+</div>
+
+<!-- PARKS -->
+<div class="fac-overlay" id="fac-parks" onclick="if(event.target===this)closeFac('parks')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Parks &amp; Green Spaces</h2><p>1 Centralized Mega Park + 1 dedicated park per sector</p></div>
+      <button class="fac-close" onclick="closeFac('parks')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('parks-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('parks-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="parks-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse2.mm.bing.net/th/id/OIP._Zvrcq0Mv5i53l4_nIa5TwHaEJ?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Central Park" onerror="this.style.background='linear-gradient(135deg,#1a5c3a,#2d9e6b)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Central</div>
+            <div class="fac-card-title">Lumina Mega Park</div>
+            <div class="fac-card-info">
+              <span>📍 Main Boulevard, Central Zone</span>
+              <span>🌳 10+ acres of green space</span>
+              <span>🎡 Children's play area &amp; jogging track</span>
+              <span>🌸 Floral gardens &amp; water features</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400&h=200&fit=crop" alt="Sector A Park" onerror="this.style.background='linear-gradient(135deg,#1a5c3a,#27ae60)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector A</div>
+            <div class="fac-card-title">Sector A Community Park</div>
+            <div class="fac-card-info">
+              <span>📍 A-Block Green Belt, Near School</span>
+              <span>🌳 2 acres · Landscaped lawns</span>
+              <span>🏏 Open cricket ground &amp; seating</span>
+              <span>💧 Drinking water &amp; washroom facility</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse1.mm.bing.net/th/id/OIP._OaA8hoZMnK9rDyD7ZStJAHaE8?r=0&cb=thfc1falcon&w=612&h=409&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sector B Park" onerror="this.style.background='linear-gradient(135deg,#145a32,#1e8449)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector B</div>
+            <div class="fac-card-title">Sector B Leisure Park</div>
+            <div class="fac-card-info">
+              <span>📍 B-Block Central Green Lane</span>
+              <span>🌳 2 acres · Evening walkways lit</span>
+              <span>🤸 Outdoor gym equipment installed</span>
+              <span>🌙 Open till 10 PM nightly</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://montgomeryparks.org/wp-content/uploads/2016/07/53798534215_ca11306cb9_c.jpg" alt="Sector C Park" onerror="this.style.background='linear-gradient(135deg,#0e6655,#17a589)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector C</div>
+            <div class="fac-card-title">Sector C Green Zone</div>
+            <div class="fac-card-info">
+              <span>📍 C-Block, Greenery Lane End</span>
+              <span>🌳 2 acres · Dense tree cover</span>
+              <span>🎠 Kids play area &amp; benches</span>
+              <span>🐕 Pet-friendly walking paths</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe or use arrows to view all parks</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHOOLS -->
+<div class="fac-overlay" id="fac-schools" onclick="if(event.target===this)closeFac('schools')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Schools &amp; Education</h2><p>One dedicated school per sector — quality education within walking distance</p></div>
+      <button class="fac-close" onclick="closeFac('schools')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('schools-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('schools-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="schools-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://thf.bing.com/th/id/OIP.16zTPdrWt6ghNfiE2JNJHAHaEJ?r=0&o=7&cb=thfc1falconrm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sector A School" onerror="this.style.background='linear-gradient(135deg,#0f2547,#1a5276)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector A</div>
+            <div class="fac-card-title">Lumina Public School — A</div>
+            <div class="fac-card-info">
+              <span>📍 A-Block, School Road</span>
+              <span>🏫 Classes: Nursery to Grade 10</span>
+              <span>👨‍🏫 Qualified teaching faculty</span>
+              <span>🏟️ Ground, library &amp; computer lab</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://img.freepik.com/premium-photo/brick-school-building-courtyard_715003-4118.jpg" alt="Sector B School" onerror="this.style.background='linear-gradient(135deg,#0f2547,#154360)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector B</div>
+            <div class="fac-card-title">Lumina Public School — B</div>
+            <div class="fac-card-info">
+              <span>📍 B-Block, Main Street</span>
+              <span>🏫 Classes: Nursery to Grade 10</span>
+              <span>🎨 Arts &amp; science stream available</span>
+              <span>🚌 School van service for residents</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse3.mm.bing.net/th/id/OIP.gkniQbk2BAOLu6W3L_kSxgHaEL?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Sector C School" onerror="this.style.background='linear-gradient(135deg,#0f2547,#1a3a6b)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Sector C</div>
+            <div class="fac-card-title">Lumina Public School — C</div>
+            <div class="fac-card-info">
+              <span>📍 C-Block, Education Avenue</span>
+              <span>🏫 Classes: Nursery to Grade 10</span>
+              <span>🏊 Swimming coaching program</span>
+              <span>📡 Smart classroom technology</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to view all schools</div>
+    </div>
+  </div>
+</div>
+
+<!-- POOLS -->
+<div class="fac-overlay" id="fac-pools" onclick="if(event.target===this)closeFac('pools')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Swimming Pools</h2><p>Separate state-of-the-art pools for boys and girls</p></div>
+      <button class="fac-close" onclick="closeFac('pools')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('pools-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('pools-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="pools-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=400&h=200&fit=crop" alt="Boys Pool" onerror="this.style.background='linear-gradient(135deg,#1a6fa3,#2980b9)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Boys</div>
+            <div class="fac-card-title">Community Pool — Boys</div>
+            <div class="fac-card-info">
+              <span>📍 Sports Complex, Central Zone</span>
+              <span>🏊 Olympic-standard 25m pool</span>
+              <span>👨‍🏫 Certified swimming instructors</span>
+              <span>🕐 6 AM – 10 PM daily</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=200&fit=crop" alt="Girls Pool" onerror="this.style.background='linear-gradient(135deg,#1a6fa3,#5dade2)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Girls</div>
+            <div class="fac-card-title">Community Pool — Girls</div>
+            <div class="fac-card-info">
+              <span>📍 Sports Complex, Separate Wing</span>
+              <span>🏊 Fully enclosed &amp; private facility</span>
+              <span>👩‍🏫 Female-only staff &amp; instructors</span>
+              <span>🕐 8 AM – 8 PM · Ladies only</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to view pool facilities</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESTAURANTS -->
+<div class="fac-overlay" id="fac-restaurants" onclick="if(event.target===this)closeFac('restaurants')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Restaurants &amp; Dining</h2><p>Commercial food street with diverse dining options</p></div>
+      <button class="fac-close" onclick="closeFac('restaurants')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('restaurants-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('restaurants-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="restaurants-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=200&fit=crop" alt="Food Street">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Central</div>
+            <div class="fac-card-title">Lumina Food Street</div>
+            <div class="fac-card-info">
+              <span>📍 Main Commercial Boulevard</span>
+              <span>🍽️ 15+ dine-in restaurants</span>
+              <span>🧆 Pakistani, BBQ &amp; Continental</span>
+              <span>🕐 Open till midnight daily</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&h=200&fit=crop" alt="Fine Dining">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Premium</div>
+            <div class="fac-card-title">Fine Dining Zone</div>
+            <div class="fac-card-info">
+              <span>📍 Tower Block, Ground Floor</span>
+              <span>🥩 Steakhouse &amp; rooftop dining</span>
+              <span>🎵 Live music on weekends</span>
+              <span>🅿️ Dedicated valet parking</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=200&fit=crop" alt="Cafes">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Cafes</div>
+            <div class="fac-card-title">Café &amp; Bakery Row</div>
+            <div class="fac-card-info">
+              <span>📍 Sector Park-side Strip</span>
+              <span>☕ Specialty coffee &amp; bakeries</span>
+              <span>🥐 Breakfast from 7 AM</span>
+              <span>📶 Free WiFi in all café zones</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to explore dining options</div>
+    </div>
+  </div>
+</div>
+
+<!-- MEDICAL -->
+<div class="fac-overlay" id="fac-medical" onclick="if(event.target===this)closeFac('medical')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Medical Stores &amp; Pharmacy</h2><p>24/7 pharmacies in every sector block</p></div>
+      <button class="fac-close" onclick="closeFac('medical')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('medical-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('medical-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="medical-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://thf.bing.com/th/id/OIP.5LdwhAb9A-ahq_XfVJjm8gHaEK?r=0&o=7&cb=thfc1falconrm=3&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Pharmacy A">
+          <div class="fac-card-body"><div class="fac-card-badge">Sector A</div><div class="fac-card-title">Lumina Pharmacy — A</div><div class="fac-card-info"><span>📍 A-Block, Near Masjid</span><span>💊 All medicines · 24/7 open</span><span>🚴 Home delivery available</span></div></div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&h=200&fit=crop" alt="Pharmacy B">
+          <div class="fac-card-body"><div class="fac-card-badge">Sector B</div><div class="fac-card-title">Lumina Pharmacy — B</div><div class="fac-card-info"><span>📍 B-Block Main Road</span><span>💊 Prescription &amp; OTC medicines</span><span>🩺 Basic diagnostic test service</span></div></div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1631549916768-4119b2e5f926?w=400&h=200&fit=crop" alt="Pharmacy C">
+          <div class="fac-card-body"><div class="fac-card-badge">Sector C</div><div class="fac-card-title">Lumina Pharmacy — C</div><div class="fac-card-info"><span>📍 C-Block, Ground Floor</span><span>🧪 Blood test sample collection</span><span>🕐 Open 24/7</span></div></div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to view all pharmacies</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOSPITAL -->
+<div class="fac-overlay" id="fac-hospital" onclick="if(event.target===this)closeFac('hospital')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Lumina Community Hospital</h2><p>Full-service hospital at the heart of the housing scheme</p></div>
+      <button class="fac-close" onclick="closeFac('hospital')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('hospital-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('hospital-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="hospital-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=400&h=200&fit=crop" alt="Hospital">
+          <div class="fac-card-body"><div class="fac-card-badge">Central</div><div class="fac-card-title">Lumina General Hospital</div><div class="fac-card-info"><span>📍 Central Boulevard, Health Zone</span><span>🏥 50-bed inpatient facility</span><span>🚑 24/7 Emergency &amp; Trauma</span><span>🩺 15+ specialist consultants</span></div></div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=200&fit=crop" alt="OPD">
+          <div class="fac-card-body"><div class="fac-card-badge">OPD</div><div class="fac-card-title">Outpatient Department</div><div class="fac-card-info"><span>📍 Ground Floor, East Wing</span><span>👨‍⚕️ General medicine, Gynae, Ortho</span><span>🔬 Lab, X-ray &amp; Ultrasound</span></div></div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to explore hospital services</div>
+    </div>
+  </div>
+</div>
+
+<!-- INFRA -->
+<div class="fac-overlay" id="fac-infra" onclick="if(event.target===this)closeFac('infra')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Roads &amp; Utilities</h2><p>World-class infrastructure across all sectors</p></div>
+      <button class="fac-close" onclick="closeFac('infra')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('infra-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('infra-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="infra-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse3.mm.bing.net/th/id/OIP.fGqCgL38PaROezWTPsAk8QHaEo?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Main Road">
+          <div class="fac-card-body"><div class="fac-card-badge">Roads</div><div class="fac-card-title">Main Boulevard — 60ft</div><div class="fac-card-info"><span>📍 Central Zone to All Sectors</span><span>🛣️ 60ft main + 40ft sector roads</span><span>💡 Solar-powered street lighting</span></div></div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop" alt="Utilities">
+          <div class="fac-card-body"><div class="fac-card-badge">Utilities</div><div class="fac-card-title">Underground Utilities</div><div class="fac-card-info"><span>📍 All Sectors</span><span>⚡ LESCO + backup generator</span><span>💧 WASA water + storage</span><span>🔥 SNGPL gas pipeline</span></div></div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse4.mm.bing.net/th/id/OIP.OfXj9ZAOPETpuRVvwiBIBQHaFj?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Security">
+          <div class="fac-card-body"><div class="fac-card-badge">Security</div><div class="fac-card-title">Security &amp; CCTV</div><div class="fac-card-info"><span>📍 All Entry/Exit Points</span><span>📹 200+ CCTV cameras</span><span>🔒 Gated · 24/7 guards</span></div></div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to explore infrastructure</div>
+    </div>
+  </div>
+</div>
+
+<!-- RECREATIONAL SPACES -->
+<div class="fac-overlay" id="fac-recreational" onclick="if(event.target===this)closeFac('recreational')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Recreational Spaces</h2><p>Sports courts, gymnasium, and leisure zones for all ages</p></div>
+      <button class="fac-close" onclick="closeFac('recreational')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('rec-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('rec-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="rec-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://th.bing.com/th/id/R.78344e02b5989293afd9de84541016f2?rik=MWaiARc5hcubtQ&pid=ImgRaw&r=0" alt="Sports Complex" onerror="this.style.background='linear-gradient(135deg,#6c3483,#9b59b6)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Central</div>
+            <div class="fac-card-title">Lumina Sports Complex</div>
+            <div class="fac-card-info">
+              <span>📍 Central Zone, Sports Avenue</span>
+              <span>🏋️ Fully equipped indoor gymnasium</span>
+              <span>🏸 Badminton, squash &amp; table tennis</span>
+              <span>🕐 Open 6 AM – 10 PM daily</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse3.mm.bing.net/th/id/OIP.mT_N_VmyiVtKetjbjrF9dwHaEp?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Cricket Ground" onerror="this.style.background='linear-gradient(135deg,#1a5c3a,#2d9e6b)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Central</div>
+            <div class="fac-card-title">Main Cricket Ground</div>
+            <div class="fac-card-info">
+              <span>📍 East Wing, Open Ground</span>
+              <span>🏏 Full-size cricket pitch &amp; outfield</span>
+              <span>💡 Floodlit for evening matches</span>
+              <span>🏆 Inter-sector tournaments held here</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://tse4.mm.bing.net/th/id/OIP.5pdN4BgNiKQUr1P0kpjkKQHaE8?r=0&cb=thfc1falcon&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Basketball Court" onerror="this.style.background='linear-gradient(135deg,#c0392b,#e74c3c)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Per Sector</div>
+            <div class="fac-card-title">Basketball &amp; Tennis Courts</div>
+            <div class="fac-card-info">
+              <span>📍 One court per sector block</span>
+              <span>🏀 Full-size NBA-standard court</span>
+              <span>🎾 Dual-use tennis court</span>
+              <span>🌃 Night lights installed</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400&h=200&fit=crop" alt="Gym" onerror="this.style.background='linear-gradient(135deg,#2c3e50,#34495e)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Premium</div>
+            <div class="fac-card-title">Fitness &amp; Wellness Center</div>
+            <div class="fac-card-info">
+              <span>📍 Sports Complex, 2nd Floor</span>
+              <span>💪 Weight training &amp; cardio equipment</span>
+              <span>🧘 Yoga &amp; meditation classes</span>
+              <span>👨‍⚕️ Personal trainer on-call</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to explore all recreational facilities</div>
+    </div>
+  </div>
+</div>
+
+<!-- LUMINA GRAND MALL -->
+<div class="fac-overlay" id="fac-mall" onclick="if(event.target===this)closeFac('mall')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Lumina Grand Mall</h2><p>Lumina's city central Mall — shopping, leisure &amp; community in one tower</p></div>
+      <button class="fac-close" onclick="closeFac('mall')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div class="fac-swipe-btns">
+        <button class="fac-swipe-btn" onclick="scrollCards('mall-cards',-260)">← Prev</button>
+        <button class="fac-swipe-btn" onclick="scrollCards('mall-cards',260)">Next →</button>
+      </div>
+      <div class="fac-cards-scroll" id="mall-cards">
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=400&h=200&fit=crop" alt="Lumina Grand Mall" onerror="this.style.background='linear-gradient(135deg,#071224,#1a3a6b)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Central Icon</div>
+            <div class="fac-card-title">Lumina Grand Mall</div>
+            <div class="fac-card-info">
+              <span>📍 Main Boulevard, Central Zone</span>
+              <span>🏬 Pakistan's only vertical living mall</span>
+              <span>🏢 8 floors · 200+ retail outlets</span>
+              <span>🎪 Pakistan's first sky-garden atrium</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=200&fit=crop" alt="Fashion Zone" onerror="this.style.background='linear-gradient(135deg,#922b21,#e74c3c)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Floors 1–3</div>
+            <div class="fac-card-title">Fashion &amp; Lifestyle Zone</div>
+            <div class="fac-card-info">
+              <span>👗 Local &amp; international fashion brands</span>
+              <span>💄 Beauty &amp; grooming salons</span>
+              <span>👟 Footwear &amp; accessories</span>
+              <span>🛍️ Superstore &amp; hypermarket</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=400&h=200&fit=crop" alt="Entertainment Floor" onerror="this.style.background='linear-gradient(135deg,#0f2547,#2e4482)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Floors 4–6</div>
+            <div class="fac-card-title">Entertainment &amp; Dining</div>
+            <div class="fac-card-info">
+              <span>🎬 5-screen cinema multiplex</span>
+              <span>🎮 Gaming zone &amp; VR arcade</span>
+              <span>🍕 International food court</span>
+              <span>☕ Rooftop café &amp; terrace</span>
+            </div>
+          </div>
+        </div>
+        <div class="fac-detail-card">
+          <img class="fac-card-img" src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=200&fit=crop" alt="Sky Garden" onerror="this.style.background='linear-gradient(135deg,#1a5c3a,#2d9e6b)'">
+          <div class="fac-card-body">
+            <div class="fac-card-badge">Floors 7–8</div>
+            <div class="fac-card-title">Sky Garden &amp; Offices</div>
+            <div class="fac-card-info">
+              <span>🌿 Pakistan's first indoor sky garden</span>
+              <span>🏢 Premium commercial office suites</span>
+              <span>🔭 360° panoramic city view deck</span>
+              <span>🌟 Lumina's architectural signature</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="fac-nav-hint">← Swipe to explore all mall floors</div>
+    </div>
+  </div>
+</div>
+
+<!-- SCHEME MAP -->
+<div class="fac-overlay" id="fac-map" onclick="if(event.target===this)closeFac('map')">
+  <div class="fac-popup">
+    <div class="fac-popup-header">
+      <div><h2>Scheme Map</h2><p>Full layout map of Lumina Green City — sectors, facilities &amp; roads</p></div>
+      <button class="fac-close" onclick="closeFac('map')">&times;</button>
+    </div>
+    <div class="fac-popup-body">
+      <div style="background:var(--cream);border-radius:16px;padding:60px 40px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;min-height:300px;">
+        <svg width="72" height="72" viewBox="0 0 48 48" fill="none">
+          <rect x="4" y="8" width="40" height="32" rx="3" stroke="#0f2547" stroke-width="2" fill="rgba(15,37,71,0.06)"/>
+          <line x1="24" y1="8" x2="24" y2="40" stroke="#c9973a" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <line x1="4" y1="24" x2="44" y2="24" stroke="#c9973a" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <rect x="7" y="11" width="14" height="10" rx="2" fill="#0f2547" opacity="0.25"/>
+          <rect x="27" y="11" width="14" height="10" rx="2" fill="#1a3a6b" opacity="0.25"/>
+          <rect x="7" y="26" width="14" height="10" rx="2" fill="#1a3a6b" opacity="0.25"/>
+          <rect x="27" y="26" width="14" height="10" rx="2" fill="#0f2547" opacity="0.25"/>
+          <circle cx="24" cy="24" r="5" fill="#c9973a"/>
+        </svg>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);">Lumina Green City — Scheme Map</div>
+        <div style="font-size:13px;color:var(--muted);max-width:380px;line-height:1.75;">Explore the full interactive map of Lumina Green City — sectors, plots, roads and key facilities all in one place.</div>
+        <a href="map.html" style="display:inline-flex;align-items:center;gap:10px;background:#0f2547;color:#fff;font-size:14px;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none;letter-spacing:0.4px;margin-top:8px;transition:background 0.2s;" onmouseover="this.style.background='#c9973a'" onmouseout="this.style.background='#0f2547'">
+          🗺&nbsp; Open Full Map
+        </a>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">For an on-site visit or printed map, contact us at <strong style="color:var(--navy)">+92-311-1234567</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

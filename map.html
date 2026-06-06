@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scheme Map — Lumina Green City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #0f2547;
+      --navy2:   #071224;
+      --navy3:   #193a6e;
+      --gold:    #c9973a;
+      --gold2:   #e0b96a;
+      --gold3:   #f5d68a;
+      --cream:   #f8f6f1;
+      --border:  #e4e9f0;
+      --muted:   #7a8a99;
+      --text:    #1c2b3a;
+      --white:   #ffffff;
+
+      /* map palette */
+      --road-main: #c9973a;
+      --road-sec:  rgba(201,151,58,0.45);
+      --road-bg:   #0b1c3d;
+      --zone-a:    rgba(39,174,96,0.14);
+      --zone-b:    rgba(41,128,185,0.14);
+      --zone-c:    rgba(155,89,182,0.14);
+      --zone-c2:   rgba(231,76,60,0.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body, html {
+      width: 100%; height: 100%; overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: var(--navy2);
+      color: var(--white);
+    }
+
+    /* ─── LAYOUT ─── */
+    .app { display: flex; width: 100%; height: 100%; position: relative; }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: 280px; flex-shrink: 0;
+      background: linear-gradient(180deg, #071224 0%, #0d2040 100%);
+      border-right: 1px solid rgba(201,151,58,0.22);
+      display: flex; flex-direction: column;
+      padding: 0; z-index: 20;
+      box-shadow: 4px 0 32px rgba(0,0,0,0.45);
+    }
+
+    .sb-header {
+      padding: 28px 24px 22px;
+      border-bottom: 1px solid rgba(201,151,58,0.14);
+      background: rgba(201,151,58,0.04);
+    }
+    .sb-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .sb-logo-icon { width: 36px; height: 36px; }
+    .sb-brand { font-family: 'Playfair Display', serif; font-size: 16px; color: #fff; line-height: 1.2; }
+    .sb-brand span { color: var(--gold2); }
+    .sb-tagline { font-size: 10.5px; color: rgba(255,255,255,0.35); letter-spacing: 0.8px; text-transform: uppercase; }
+
+    .sb-body { flex: 1; padding: 22px 16px; display: flex; flex-direction: column; gap: 22px; overflow-y: auto; }
+
+    .sb-section-label {
+      font-size: 9.5px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(201,151,58,0.6);
+      padding: 0 6px; margin-bottom: 8px;
+    }
+
+    /* Sector buttons */
+    .sector-btn {
+      width: 100%; display: flex; align-items: center; gap: 12px;
+      padding: 13px 14px; border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.65); font-family: 'Inter', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      text-align: left; transition: all 0.22s; margin-bottom: 8px;
+      position: relative; overflow: hidden;
+    }
+    .sector-btn::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; border-radius: 2px; transition: all 0.22s;
+    }
+    .sector-btn.sa::before { background: #27ae60; }
+    .sector-btn.sb::before { background: #2980b9; }
+    .sector-btn.sc::before { background: #9b59b6; }
+    .sector-btn:hover { background: rgba(201,151,58,0.1); border-color: rgba(201,151,58,0.3); color: #fff; transform: translateX(3px); }
+    .sector-btn-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; flex-shrink: 0; }
+    .sector-btn.sa .sector-btn-dot { background: rgba(39,174,96,0.18); color: #27ae60; border: 1.5px solid rgba(39,174,96,0.35); }
+    .sector-btn.sb .sector-btn-dot { background: rgba(41,128,185,0.18); color: #2980b9; border: 1.5px solid rgba(41,128,185,0.35); }
+    .sector-btn.sc .sector-btn-dot { background: rgba(155,89,182,0.18); color: #9b59b6; border: 1.5px solid rgba(155,89,182,0.35); }
+    .sector-btn-info { flex: 1; }
+    .sector-btn-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .sector-btn-sub { font-size: 10.5px; color: rgba(255,255,255,0.38); font-weight: 400; }
+    .sector-btn-arrow { font-size: 12px; color: rgba(201,151,58,0.5); transition: all 0.2s; }
+    .sector-btn:hover .sector-btn-arrow { color: var(--gold2); transform: translateX(3px); }
+
+    /* Legend */
+    .legend-item { display: flex; align-items: center; gap: 10px; padding: 8px 6px; font-size: 12px; color: rgba(255,255,255,0.55); border-radius: 6px; transition: all 0.15s; cursor: default; }
+    .legend-item:hover { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.8); }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .legend-icon { font-size: 14px; width: 22px; text-align: center; }
+
+    /* Stats strip */
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stat-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 12px 10px; text-align: center; }
+    .stat-val { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold2); font-weight: 700; }
+    .stat-lbl { font-size: 9.5px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+
+    .sb-footer {
+      padding: 16px 18px;
+      border-top: 1px solid rgba(201,151,58,0.1);
+      font-size: 10.5px; color: rgba(255,255,255,0.22);
+      text-align: center; line-height: 1.6;
+    }
+
+    /* ─── MAP VIEWPORT ─── */
+    .map-viewport {
+      flex: 1; position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at 40% 40%, #0d2244 0%, #071224 70%);
+    }
+
+    /* Subtle grid overlay */
+    .map-viewport::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(201,151,58,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,151,58,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
+
+    /* Vignette */
+    .map-viewport::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(7,18,36,0.65) 100%);
+      z-index: 1;
+    }
+
+    .map-3d-stage {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      perspective: 1600px; z-index: 2;
+    }
+
+    .map-canvas {
+      position: relative;
+      width: 820px; height: 680px;
+      transform: rotateX(48deg) rotateZ(-12deg);
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+
+    /* ── MAP BASE PLATE ── */
+    .map-base {
+      position: absolute; inset: 0;
+      background: linear-gradient(145deg, #0a1d3e 0%, #0d2244 50%, #091a38 100%);
+      border-radius: 4px;
+      box-shadow: 0 0 0 1px rgba(201,151,58,0.15), 0 40px 120px rgba(0,0,0,0.8);
+    }
+
+    /* ── SVG ROAD NETWORK ── */
+    .road-svg {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; overflow: visible;
+    }
+
+    /* Road layers */
+    .rl-shadow { stroke: rgba(0,0,0,0.6); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .rl-asphalt { stroke: #0e2040; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .rl-main { stroke: var(--gold); fill: none; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 4px rgba(201,151,58,0.5)); }
+    .rl-sec { stroke: rgba(201,151,58,0.35); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .rl-mark { stroke: rgba(255,255,255,0.18); fill: none; stroke-dasharray: 8 12; stroke-linecap: round; }
+
+    /* ── SECTOR ZONES ── */
+    .zone {
+      position: absolute; border-radius: 6px;
+      border: 1px dashed; display: flex;
+      flex-direction: column; align-items: flex-start;
+      justify-content: flex-start; padding: 8px 10px;
+    }
+    .zone-label {
+      font-size: 9px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase; opacity: 0.6;
+      margin-bottom: 3px; font-family: 'Inter', sans-serif;
+    }
+    .zone-sub {
+      font-size: 8px; opacity: 0.4; font-family: 'Inter', sans-serif;
+    }
+
+    /* ── MAP PINS ── */
+    .pin {
+      position: absolute; transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center;
+      cursor: pointer; z-index: 10;
+      transform-style: preserve-3d;
+    }
+    .pin-body {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; transition: all 0.22s;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      position: relative;
+    }
+    .pin-body::after {
+      content: ''; position: absolute;
+      bottom: -6px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid;
+    }
+    .pin-label {
+      background: rgba(7,18,36,0.96);
+      border: 1px solid rgba(201,151,58,0.55);
+      color: #fff; font-size: 10px; font-weight: 700; padding: 4px 9px;
+      border-radius: 5px; white-space: nowrap; margin-top: 10px;
+      letter-spacing: 0.4px; font-family: 'Inter', sans-serif;
+      transform: rotateX(-48deg) rotateZ(12deg) translateZ(30px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,151,58,0.15);
+      transition: all 0.22s;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+      line-height: 1.3;
+    }
+    .pin:hover .pin-body { transform: translateZ(20px) scale(1.2); }
+    .pin:hover .pin-label { background: rgba(15,37,71,0.98); border-color: var(--gold); color: var(--gold2); }
+
+    /* Pin color variants */
+    .pin-gold .pin-body { background: rgba(201,151,58,0.2); border-color: var(--gold); }
+    .pin-gold .pin-body::after { border-top-color: var(--gold); }
+    .pin-green .pin-body { background: rgba(39,174,96,0.2); border-color: #27ae60; }
+    .pin-green .pin-body::after { border-top-color: #27ae60; }
+    .pin-blue .pin-body { background: rgba(41,128,185,0.2); border-color: #2980b9; }
+    .pin-blue .pin-body::after { border-top-color: #2980b9; }
+    .pin-red .pin-body { background: rgba(231,76,60,0.2); border-color: #e74c3c; }
+    .pin-red .pin-body::after { border-top-color: #e74c3c; }
+    .pin-purple .pin-body { background: rgba(155,89,182,0.2); border-color: #9b59b6; }
+    .pin-purple .pin-body::after { border-top-color: #9b59b6; }
+    .pin-teal .pin-body { background: rgba(26,188,156,0.2); border-color: #1abc9c; }
+    .pin-teal .pin-body::after { border-top-color: #1abc9c; }
+
+    /* ── SECTOR NODES (clickable hubs) ── */
+    .sector-node {
+      position: absolute; transform: translate(-50%, -50%);
+      cursor: pointer; z-index: 15;
+      transform-style: preserve-3d;
+    }
+    .sector-node-ring {
+      width: 54px; height: 54px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 18px;
+      font-weight: 700; color: #fff; position: relative;
+      transition: all 0.25s;
+    }
+    .sector-node-ring::before {
+      content: ''; position: absolute; inset: -5px;
+      border-radius: 50%; border: 1.5px solid;
+      animation: sectorRing 2.5s ease-in-out infinite;
+    }
+    @keyframes sectorRing {
+      0%,100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 1; }
+    }
+    .sn-a .sector-node-ring { background: rgba(39,174,96,0.25); box-shadow: 0 0 20px rgba(39,174,96,0.4); border: 2px solid #27ae60; }
+    .sn-a .sector-node-ring::before { border-color: rgba(39,174,96,0.5); }
+    .sn-b .sector-node-ring { background: rgba(41,128,185,0.25); box-shadow: 0 0 20px rgba(41,128,185,0.4); border: 2px solid #2980b9; }
+    .sn-b .sector-node-ring::before { border-color: rgba(41,128,185,0.5); }
+    .sn-c .sector-node-ring { background: rgba(155,89,182,0.25); box-shadow: 0 0 20px rgba(155,89,182,0.4); border: 2px solid #9b59b6; }
+    .sn-c .sector-node-ring::before { border-color: rgba(155,89,182,0.5); }
+    .sector-node-label {
+      background: rgba(7,18,36,0.96);
+      border: 1px solid rgba(201,151,58,0.55);
+      color: #fff; font-size: 9.5px; font-weight: 800; padding: 4px 10px;
+      border-radius: 5px; white-space: nowrap; margin-top: 10px;
+      text-align: center; letter-spacing: 0.6px; text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+      transform: rotateX(-48deg) rotateZ(12deg) translateZ(30px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,151,58,0.15);
+      transition: all 0.22s;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+    }
+    .sector-node:hover .sector-node-ring { transform: scale(1.15); }
+    .sector-node:hover .sector-node-label { background: rgba(15,37,71,0.98); border-color: var(--gold); color: var(--gold2); }
+
+    /* ── ROUNDABOUT ── */
+    .roundabout {
+      position: absolute; transform: translate(-50%, -50%);
+      z-index: 12;
+    }
+    .roundabout-body {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: #091830; border: 3px solid var(--gold);
+      box-shadow: 0 0 20px rgba(201,151,58,0.4), inset 0 0 20px rgba(201,151,58,0.05);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; animation: roundaboutSpin 12s linear infinite;
+    }
+    @keyframes roundaboutSpin {
+      from { box-shadow: 0 0 15px rgba(201,151,58,0.3), inset 0 0 15px rgba(201,151,58,0.05); }
+      50%  { box-shadow: 0 0 30px rgba(201,151,58,0.6), inset 0 0 25px rgba(201,151,58,0.1); }
+      to   { box-shadow: 0 0 15px rgba(201,151,58,0.3), inset 0 0 15px rgba(201,151,58,0.05); }
+    }
+
+    /* ── COMPASS ── */
+    .compass {
+      position: absolute; top: 20px; right: 20px; z-index: 20;
+      width: 64px; height: 64px;
+    }
+    .compass-body {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(7,18,36,0.9); border: 1.5px solid rgba(201,151,58,0.4);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5); display: flex;
+      align-items: center; justify-content: center; position: relative;
+    }
+    .compass-n { position: absolute; top: 7px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 800; color: var(--gold2); letter-spacing: 0; }
+    .compass-needle { width: 2px; height: 22px; background: linear-gradient(to bottom, #e74c3c 50%, rgba(255,255,255,0.4) 50%); border-radius: 1px; transform: rotate(-12deg); }
+
+    /* ─── TOP BAR (map) ─── */
+    .map-topbar {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 15;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 22px;
+      background: linear-gradient(180deg, rgba(7,18,36,0.9) 0%, transparent 100%);
+    }
+    .map-topbar-title { font-family: 'Playfair Display', serif; font-size: 15px; color: rgba(255,255,255,0.55); }
+    .map-topbar-title span { color: var(--gold2); }
+    .map-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(201,151,58,0.1); border: 1px solid rgba(201,151,58,0.28); border-radius: 16px; padding: 5px 12px; font-size: 10.5px; color: var(--gold2); font-weight: 600; letter-spacing: 0.3px; }
+    .map-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: badgePulse 2s infinite; }
+    @keyframes badgePulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    /* ─── SECTOR POPUP MODAL ─── */
+    .modal-overlay {
+      position: absolute; inset: 0; z-index: 100;
+      background: rgba(4,9,22,0.6); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+    .modal-box {
+      width: 680px; max-width: 96%;
+      background: linear-gradient(145deg, #0a1d3e, #071224);
+      border: 1.5px solid rgba(201,151,58,0.35);
+      border-radius: 18px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,151,58,0.1);
+      transform: scale(0.92) translateY(16px);
+      transition: transform 0.35s cubic-bezier(.22,1,.36,1);
+      overflow: hidden;
+    }
+    .modal-overlay.active .modal-box { transform: scale(1) translateY(0); }
+
+    .modal-header {
+      background: linear-gradient(135deg, rgba(201,151,58,0.12), rgba(201,151,58,0.04));
+      border-bottom: 1px solid rgba(201,151,58,0.18);
+      padding: 20px 26px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-header-left { display: flex; align-items: center; gap: 12px; }
+    .modal-sector-badge {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #fff;
+    }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 20px; color: #fff; }
+    .modal-subtitle { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+    .modal-close {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.6); width: 34px; height: 34px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-family: 'Inter', sans-serif; transition: all 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.16); color: #fff; }
+
+    .modal-body { padding: 24px 26px; }
+
+    /* Sector mini-map */
+    .sector-map-grid {
+      width: 100%; height: 300px;
+      background: #060f22;
+      border: 1px solid rgba(201,151,58,0.15);
+      border-radius: 12px; position: relative; overflow: hidden;
+    }
+    /* inner road cross */
+    .sg-road-h {
+      position: absolute; top: 50%; left: 0; right: 0; height: 34px;
+      background: #0d2040; transform: translateY(-50%);
+      border-top: 1.5px solid rgba(201,151,58,0.4); border-bottom: 1.5px solid rgba(201,151,58,0.4);
+    }
+    .sg-road-v {
+      position: absolute; left: 50%; top: 0; bottom: 0; width: 34px;
+      background: #0d2040; transform: translateX(-50%);
+      border-left: 1.5px solid rgba(201,151,58,0.4); border-right: 1.5px solid rgba(201,151,58,0.4);
+    }
+    .sg-road-h::before, .sg-road-v::before {
+      content: ''; position: absolute; background: rgba(255,255,255,0.1);
+    }
+    .sg-road-h::before { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-50%); background: repeating-linear-gradient(90deg, rgba(255,255,255,0.15) 0, rgba(255,255,255,0.15) 12px, transparent 12px, transparent 22px); }
+    .sg-road-v::before { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); background: repeating-linear-gradient(180deg, rgba(255,255,255,0.15) 0, rgba(255,255,255,0.15) 12px, transparent 12px, transparent 22px); }
+
+    /* central roundabout */
+    .sg-roundabout {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #091830; border: 2px solid var(--gold);
+      box-shadow: 0 0 16px rgba(201,151,58,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; z-index: 5;
+    }
+
+    /* facility chips around the cross */
+    .sg-facility {
+      position: absolute; background: rgba(7,18,36,0.95);
+      border: 1px solid rgba(201,151,58,0.25); border-radius: 7px;
+      padding: 6px 10px; font-size: 10.5px; font-weight: 600;
+      color: rgba(255,255,255,0.75); white-space: nowrap; z-index: 6;
+      display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s;
+    }
+    .sg-facility:hover { border-color: var(--gold); color: #fff; background: rgba(201,151,58,0.1); }
+
+    /* quadrant blocks */
+    .sg-quad {
+      position: absolute; display: grid;
+      grid-template-columns: repeat(4,1fr); gap: 5px;
+      padding: 8px;
+    }
+    .sq-house {
+      width: 22px; height: 22px; border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; border: 1px solid;
+      transition: all 0.15s; cursor: default;
+    }
+    .sq-available { background: rgba(39,174,96,0.12); border-color: rgba(39,174,96,0.3); }
+    .sq-sold { background: rgba(231,76,60,0.12); border-color: rgba(231,76,60,0.3); }
+    .sq-reserved { background: rgba(230,168,23,0.12); border-color: rgba(230,168,23,0.3); }
+    .sq-house:hover { transform: scale(1.15); }
+
+    /* modal stats row */
+    .modal-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 16px; }
+    .ms-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 9px; padding: 12px 10px; text-align: center; }
+    .ms-val { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold2); font-weight: 700; }
+    .ms-lbl { font-size: 9.5px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 3px; }
+
+    /* ─── BACK BUTTON ─── */
+    .back-btn {
+      position: absolute; top: 14px; left: 10px; z-index: 30;
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 14px; background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 8px;
+      color: rgba(255,255,255,0.65); font-size: 12.5px; font-weight: 500;
+      text-decoration: none; font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .back-btn:hover { background: rgba(201,151,58,0.1); border-color: rgba(201,151,58,0.3); color: #fff; }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+
+    <div class="sb-header">
+      <div class="sb-logo">
+        <svg class="sb-logo-icon" viewBox="0 0 110 110" fill="none">
+          <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(201,151,58,0.4)" stroke-width="1.5"/>
+          <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#c9973a" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="44" y="70" width="22" height="26" rx="11" fill="#c9973a"/>
+          <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+          <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+        </svg>
+        <div>
+          <div class="sb-brand">Lumina <span>Green</span> City</div>
+          <div class="sb-tagline">Interactive Scheme Map</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-body">
+
+      <!-- Sector navigation -->
+      <div>
+        <div class="sb-section-label">Sectors</div>
+        <button class="sector-btn sa" onclick="openSector('A')">
+          <div class="sector-btn-dot">A</div>
+          <div class="sector-btn-info">
+            <div class="sector-btn-title">Sector A — Alpha</div>
+            <div class="sector-btn-sub">40 units · 3 amenities</div>
+          </div>
+          <div class="sector-btn-arrow">→</div>
+        </button>
+        <button class="sector-btn sb" onclick="openSector('B')">
+          <div class="sector-btn-dot">B</div>
+          <div class="sector-btn-info">
+            <div class="sector-btn-title">Sector B — Bravo</div>
+            <div class="sector-btn-sub">40 units · 3 amenities</div>
+          </div>
+          <div class="sector-btn-arrow">→</div>
+        </button>
+        <button class="sector-btn sc" onclick="openSector('C')">
+          <div class="sector-btn-dot">C</div>
+          <div class="sector-btn-info">
+            <div class="sector-btn-title">Sector C — Charlie</div>
+            <div class="sector-btn-sub">40 units · 3 amenities</div>
+          </div>
+          <div class="sector-btn-arrow">→</div>
+        </button>
+      </div>
+
+      <!-- Legend -->
+      <div>
+        <div class="sb-section-label">Map Legend</div>
+        <div class="legend-item"><span class="legend-icon">🕌</span><span>Mosque / Masjid</span></div>
+        <div class="legend-item"><span class="legend-icon">🏫</span><span>Public School</span></div>
+        <div class="legend-item"><span class="legend-icon">🌳</span><span>Parks &amp; Green Space</span></div>
+        <div class="legend-item"><span class="legend-icon">🏥</span><span>Community Hospital</span></div>
+        <div class="legend-item"><span class="legend-icon">🏬</span><span>Lumina Grand Mall</span></div>
+        <div class="legend-item"><span class="legend-icon">🏊</span><span>Swimming Complex</span></div>
+        <div class="legend-item"><span class="legend-icon">🏟️</span><span>Sports Complex</span></div>
+        <div class="legend-item"><span class="legend-icon">🍽️</span><span>Food Street / Cafes</span></div>
+        <div class="legend-item">
+          <span style="display:inline-flex;gap:5px;align-items:center">
+            <span style="width:9px;height:9px;border-radius:50%;background:#27ae60;display:inline-block"></span>
+            <span style="width:9px;height:9px;border-radius:50%;background:#e6a817;display:inline-block"></span>
+            <span style="width:9px;height:9px;border-radius:50%;background:#e74c3c;display:inline-block"></span>
+          </span>
+          <span>Available / Reserved / Sold</span>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div>
+        <div class="sb-section-label">Scheme Stats</div>
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-val">150</div><div class="stat-lbl">Properties</div></div>
+          <div class="stat-box"><div class="stat-val">3</div><div class="stat-lbl">Sectors</div></div>
+          <div class="stat-box"><div class="stat-val">8+</div><div class="stat-lbl">Amenities</div></div>
+          <div class="stat-box"><div class="stat-val">60<span style="font-size:12px">ft</span></div><div class="stat-lbl">Main Road</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sb-footer">
+      <a href="index.html" style="color:rgba(201,151,58,0.55);text-decoration:none;font-size:11px;">← Back to Home</a><br>
+      Lumina Green City © 2025 · Lahore, Pakistan
+    </div>
+  </aside>      
+
+  <!-- ═══ MAP VIEWPORT ═══ -->
+  <div class="map-viewport">
+
+    <!-- Top bar -->
+    <div class="map-topbar">
+      <div class="map-topbar-title">Lumina Green City — <span>Master Scheme Map</span></div>
+      <div class="map-badge">
+        <div class="map-badge-dot"></div>
+        Live Map · 3D View
+      </div>
+    </div>
+
+    <!-- 3D Stage -->
+    <div class="map-3d-stage">
+      <div class="map-canvas" id="mapCanvas">
+
+        <!-- Base plate -->
+        <div class="map-base"></div>
+
+        <!-- ── SVG ROAD NETWORK ── -->
+        <svg class="road-svg" viewBox="0 0 820 680" preserveAspectRatio="none">
+          <!-- Shadows -->
+          <g class="rl-shadow" stroke-width="28" opacity="0.5">
+            <path d="M410 30 L410 650"/>
+            <path d="M60 340 L760 340"/>
+            <path d="M160 100 L160 340"/>
+            <path d="M660 100 L660 340"/>
+            <path d="M410 340 L680 100"/>
+          </g>
+          <!-- Asphalt base -->
+          <g class="rl-asphalt" stroke-width="22">
+            <path d="M410 30 L410 650"/>
+            <path d="M60 340 L760 340"/>
+            <path d="M160 100 L160 340"/>
+            <path d="M660 100 L660 340"/>
+            <path d="M410 340 L680 100"/>
+          </g>
+          <!-- Sector internal roads (thinner) -->
+          <g class="rl-sec" stroke-width="10">
+            <!-- Sector A (SE quad) internal cross -->
+            <path d="M590 340 L590 580"/>
+            <path d="M470 460 L760 460"/>
+            <!-- Sector B (SW quad) internal cross -->
+            <path d="M225 340 L225 580"/>
+            <path d="M60 460 L400 460"/>
+            <!-- Sector C (NW quad) internal cross -->
+            <path d="M230 100 L230 330"/>
+            <path d="M60 215 L400 215"/>
+          </g>
+          <!-- Main gold roads -->
+          <g class="rl-main" stroke-width="5">
+            <path d="M410 30 L410 650"/>
+            <path d="M60 340 L760 340"/>
+            <path d="M160 100 L160 340"/>
+            <path d="M660 100 L660 340"/>
+            <path d="M410 340 L680 100"/>
+          </g>
+          <!-- Centre-line dashes -->
+          <g class="rl-mark" stroke-width="1.5">
+            <path d="M410 30 L410 650"/>
+            <path d="M60 340 L760 340"/>
+          </g>
+          <!-- Border of map -->
+          <rect x="4" y="4" width="812" height="672" rx="4" fill="none" stroke="rgba(201,151,58,0.08)" stroke-width="2"/>
+        </svg>
+
+        <!-- ── SECTOR ZONES ── -->
+        <div class="zone" style="left:420px;top:355px;width:330px;height:270px;background:var(--zone-a);border-color:rgba(39,174,96,0.25);color:#27ae60;">
+          <div class="zone-label">Sector A</div>
+          <div class="zone-sub">Alpha Block · SE</div>
+        </div>
+        <div class="zone" style="left:70px;top:355px;width:330px;height:270px;background:var(--zone-b);border-color:rgba(41,128,185,0.25);color:#2980b9;">
+          <div class="zone-label">Sector B</div>
+          <div class="zone-sub">Bravo Block · SW</div>
+        </div>
+        <div class="zone" style="left:70px;top:50px;width:330px;height:280px;background:var(--zone-c);border-color:rgba(155,89,182,0.25);color:#9b59b6;">
+          <div class="zone-label">Sector C</div>
+          <div class="zone-sub">Charlie Block · NW</div>
+        </div>
+        <!-- Central zone -->
+        <div class="zone" style="left:420px;top:55px;width:330px;height:275px;background:rgba(201,151,58,0.06);border-color:rgba(201,151,58,0.2);color:var(--gold2);">
+          <div class="zone-label">Central Zone</div>
+          <div class="zone-sub">Shared Amenities</div>
+        </div>
+
+        <!-- ── MAIN ROUNDABOUT (centre) ── -->
+        <div class="roundabout" style="left:410px;top:340px;">
+          <div class="roundabout-body">⬡</div>
+        </div>
+
+        <!-- ── SECONDARY ROUNDABOUTS ── -->
+        <div class="roundabout" style="left:160px;top:340px;">
+          <div class="roundabout-body" style="width:42px;height:42px;font-size:14px;">⬡</div>
+        </div>
+        <div class="roundabout" style="left:660px;top:340px;">
+          <div class="roundabout-body" style="width:42px;height:42px;font-size:14px;">⬡</div>
+        </div>
+
+        <!-- ══ CENTRAL AMENITY PINS ══ -->
+        <!-- Grand Jamia Masjid (top of main road) -->
+        <div class="pin pin-gold" style="left:410px;top:140px;" onclick="pinClick('Grand Jamia Masjid','Central Zone · Main Boulevard','2,000+ worshippers · All 5 daily prayers · Jummah · Accessible from all sectors')">
+          <div class="pin-body">🕌</div>
+          <div class="pin-label">Grand Jamia Masjid</div>
+        </div>
+
+        <!-- Lumina Grand Mall -->
+        <div class="pin pin-gold" style="left:560px;top:210px;" onclick="pinClick('Lumina Grand Mall','Central Zone · Main Boulevard','Pakistan\'s only vertical living mall · 8 floors · 200+ shops · Cinema · Sky Garden')">
+          <div class="pin-body">🏬</div>
+          <div class="pin-label">Grand Mall</div>
+        </div>
+
+        <!-- Hospital -->
+        <div class="pin pin-red" style="left:680px;top:250px;" onclick="pinClick('Lumina General Hospital','Central Zone · Health Avenue','50-bed facility · 24/7 Emergency · 15+ specialists · ICU · OPD')">
+          <div class="pin-body">🏥</div>
+          <div class="pin-label">Hospital</div>
+        </div>
+
+        <!-- Sports Complex -->
+        <div class="pin pin-purple" style="left:720px;top:195px;" onclick="pinClick('Sports Complex','Central Zone · Sports Avenue','Cricket ground · Indoor gym · Swimming pools · Basketball & Tennis courts')">
+          <div class="pin-body">🏟️</div>
+          <div class="pin-label">Sports Complex</div>
+        </div>
+
+        <!-- Swimming Pools -->
+        <div class="pin pin-blue" style="left:665px;top:155px;" onclick="pinClick('Swimming Pools','Sports Complex · Central Zone','Boys & Girls pools (separate) · Olympic 25m · Certified instructors · 6AM–10PM')">
+          <div class="pin-body">🏊</div>
+          <div class="pin-label">Pools</div>
+        </div>
+
+        <!-- Central Park -->
+        <div class="pin pin-green" style="left:490px;top:130px;" onclick="pinClick('Lumina Mega Park','Central Zone · Green Belt','10+ acres · Jogging track · Children\'s play area · Floral gardens · Water features')">
+          <div class="pin-body">🌳</div>
+          <div class="pin-label">Mega Park</div>
+        </div>
+
+        <!-- Food Street -->
+        <div class="pin pin-teal" style="left:550px;top:285px;" onclick="pinClick('Lumina Food Street & Cafés','Main Commercial Boulevard','15+ restaurants · Pakistani, BBQ, Continental · Fine dining · Café Row · Open till midnight')">
+          <div class="pin-body">🍽️</div>
+          <div class="pin-label">Food Street</div>
+        </div>
+
+        <!-- Entrance -->
+        <div class="pin pin-gold" style="left:410px;top:50px;" onclick="pinClick('Lumina Green City Entrance','Main Boulevard · North Gate','Gated entry · 24/7 security · CCTV · Smart visitor management')">
+          <div class="pin-body">🌲</div>
+          <div class="pin-label">Main Entrance</div>
+        </div>
+
+        <!-- ══ SECTOR A PINS ══ -->
+        <div class="pin pin-green" style="left:590px;top:415px;" onclick="pinClick('Sector A Masjid','Block A-3, Near Sector Park','300 worshippers · Landscaped courtyard · Walking distance from all A-block homes')">
+          <div class="pin-body">🕌</div>
+          <div class="pin-label">A Masjid</div>
+        </div>
+        <div class="pin pin-green" style="left:680px;top:420px;" onclick="pinClick('Lumina School — Sector A','A-Block, School Road','Nursery to Grade 10 · Computer lab · Library · Ground · 24/7 school van')">
+          <div class="pin-body">🏫</div>
+          <div class="pin-label">A School</div>
+        </div>
+        <div class="pin pin-green" style="left:700px;top:500px;" onclick="pinClick('Sector A Community Park','A-Block Green Belt','2 acres · Landscaped lawns · Cricket ground · Kids play area · Washrooms')">
+          <div class="pin-body">🌳</div>
+          <div class="pin-label">A Park</div>
+        </div>
+        <div class="pin pin-red" style="left:500px;top:510px;" onclick="pinClick('Lumina Pharmacy — Sector A','Block A, Near Masjid','All medicines · Open 24/7 · Home delivery · Basic diagnostics')">
+          <div class="pin-body">💊</div>
+          <div class="pin-label">A Pharmacy</div>
+        </div>
+
+        <!-- ══ SECTOR B PINS ══ -->
+        <div class="pin pin-blue" style="left:225px;top:415px;" onclick="pinClick('Sector B Masjid','Block B-5, Central Road','300 worshippers · Madrassa & Quran classes · 5-min walk from all B-block plots')">
+          <div class="pin-body">🕌</div>
+          <div class="pin-label">B Masjid</div>
+        </div>
+        <div class="pin pin-blue" style="left:140px;top:420px;" onclick="pinClick('Lumina School — Sector B','B-Block, Main Street','Nursery to Grade 10 · Arts & Science stream · School van · Smart boards')">
+          <div class="pin-body">🏫</div>
+          <div class="pin-label">B School</div>
+        </div>
+        <div class="pin pin-blue" style="left:120px;top:510px;" onclick="pinClick('Sector B Leisure Park','B-Block Central Green Lane','2 acres · Evening walkways lit · Outdoor gym · Open till 10PM nightly')">
+          <div class="pin-body">🌳</div>
+          <div class="pin-label">B Park</div>
+        </div>
+        <div class="pin pin-red" style="left:310px;top:510px;" onclick="pinClick('Lumina Pharmacy — Sector B','B-Block Main Road','Prescription & OTC medicines · Diagnostic tests · 6AM–2AM daily')">
+          <div class="pin-body">💊</div>
+          <div class="pin-label">B Pharmacy</div>
+        </div>
+
+        <!-- ══ SECTOR C PINS ══ -->
+        <div class="pin pin-purple" style="left:230px;top:170px;" onclick="pinClick('Sector C Masjid','Block C-2, Greenery Lane','300 worshippers · Eid ground adjacent · 3-min walk from C-block plots')">
+          <div class="pin-body">🕌</div>
+          <div class="pin-label">C Masjid</div>
+        </div>
+        <div class="pin pin-purple" style="left:140px;top:170px;" onclick="pinClick('Lumina School — Sector C','C-Block, Education Avenue','Nursery to Grade 10 · Swimming coaching · Smart classroom technology')">
+          <div class="pin-body">🏫</div>
+          <div class="pin-label">C School</div>
+        </div>
+        <div class="pin pin-purple" style="left:120px;top:260px;" onclick="pinClick('Sector C Green Zone','C-Block, Greenery Lane End','2 acres · Dense tree cover · Kids play area · Pet-friendly walking paths')">
+          <div class="pin-body">🌳</div>
+          <div class="pin-label">C Park</div>
+        </div>
+        <div class="pin pin-red" style="left:310px;top:260px;" onclick="pinClick('Lumina Pharmacy — Sector C','C-Block, Ground Floor','Blood test collection · All medicines · Open 24/7')">
+          <div class="pin-body">💊</div>
+          <div class="pin-label">C Pharmacy</div>
+        </div>
+
+        <!-- ══ SECTOR HUB NODES ══ -->
+        <div class="sector-node sn-a" style="left:600px;top:580px;" onclick="openSector('A')">
+          <div class="sector-node-ring">A</div>
+          <div class="sector-node-label">Sector A Hub →</div>
+        </div>
+        <div class="sector-node sn-b" style="left:220px;top:580px;" onclick="openSector('B')">
+          <div class="sector-node-ring">B</div>
+          <div class="sector-node-label">Sector B Hub →</div>
+        </div>
+        <div class="sector-node sn-c" style="left:220px;top:85px;" onclick="openSector('C')">
+          <div class="sector-node-ring">C</div>
+          <div class="sector-node-label">Sector C Hub →</div>
+        </div>
+
+      </div><!-- /map-canvas -->
+    </div><!-- /map-3d-stage -->
+
+    <!-- Compass rose -->
+    <div class="compass" style="position:absolute;bottom:28px;right:28px;z-index:20;">
+      <div class="compass-body">
+        <div class="compass-n">N</div>
+        <div class="compass-needle"></div>
+      </div>
+    </div>
+
+    <!-- Scale bar -->
+    <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:20;display:flex;flex-direction:column;align-items:center;gap:4px;">
+      <div style="display:flex;align-items:center;gap:0;">
+        <div style="width:60px;height:6px;background:var(--gold);border-radius:2px 0 0 2px;"></div>
+        <div style="width:60px;height:6px;background:rgba(255,255,255,0.15);border-radius:0 2px 2px 0;"></div>
+      </div>
+      <div style="font-size:9px;color:rgba(255,255,255,0.35);letter-spacing:0.5px;text-transform:uppercase;">0 ——— 500m</div>
+    </div>
+
+    <!-- ── PIN INFO TOOLTIP ── -->
+    <div id="pinToast" style="position:absolute;bottom:80px;right:24px;z-index:25;max-width:280px;background:rgba(7,18,36,0.95);border:1px solid rgba(201,151,58,0.35);border-radius:12px;padding:16px 18px;opacity:0;pointer-events:none;transition:opacity 0.25s ease;box-shadow:0 8px 32px rgba(0,0,0,0.5);">
+      <div id="pinToastTitle" style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;margin-bottom:4px;"></div>
+      <div id="pinToastLoc" style="font-size:10.5px;color:var(--gold2);margin-bottom:8px;font-weight:600;"></div>
+      <div id="pinToastDesc" style="font-size:11.5px;color:rgba(255,255,255,0.5);line-height:1.6;"></div>
+    </div>
+
+  </div><!-- /map-viewport -->
+
+  <!-- ═══ SECTOR POPUP MODAL ═══ -->
+  <div class="modal-overlay" id="sectorModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box">
+
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-sector-badge" id="modalBadge">A</div>
+          <div>
+            <div class="modal-title" id="modalTitle">Sector A — Alpha Block</div>
+            <div class="modal-subtitle" id="modalSub">40 units · Masjid · School · Park · Pharmacy</div>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Mini sector map -->
+        <div class="sector-map-grid">
+          <div class="sg-road-h"></div>
+          <div class="sg-road-v"></div>
+          <div class="sg-roundabout">⬡</div>
+
+          <!-- Facility chips -->
+          <div class="sg-facility" style="top:12px;left:50%;transform:translateX(-50%);">🏫 <span id="sgSchool">Lumina School A</span></div>
+          <div class="sg-facility" style="bottom:12px;left:50%;transform:translateX(-50%);">💊 <span id="sgPharm">Pharmacy A</span></div>
+          <div class="sg-facility" style="left:12px;top:50%;transform:translateY(-50%);">🕌 <span id="sgMosque">Sector Masjid</span></div>
+          <div class="sg-facility" style="right:12px;top:50%;transform:translateY(-50%);">🌳 <span id="sgPark">Community Park</span></div>
+
+          <!-- Quadrant plot blocks -->
+          <div class="sg-quad" style="top:20px;left:20px;" id="quadTL"></div>
+          <div class="sg-quad" style="top:20px;right:20px;" id="quadTR"></div>
+          <div class="sg-quad" style="bottom:20px;left:20px;" id="quadBL"></div>
+          <div class="sg-quad" style="bottom:20px;right:20px;" id="quadBR"></div>
+        </div>
+
+        <!-- Stats -->
+        <div class="modal-stats">
+          <div class="ms-box"><div class="ms-val" id="msStat1">10</div><div class="ms-lbl">5 Marla</div></div>
+          <div class="ms-box"><div class="ms-val" id="msStat2">10</div><div class="ms-lbl">10 Marla</div></div>
+          <div class="ms-box"><div class="ms-val" id="msStat3">10</div><div class="ms-lbl">1 Kanal</div></div>
+          <div class="ms-box"><div class="ms-val" id="msStat4">10</div><div class="ms-lbl">Plots</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<script>
+  // ── SECTOR DATA ──
+  const SECTORS = {
+    A: {
+      color: '#27ae60', badgeBg: 'rgba(39,174,96,0.25)', border: '#27ae60',
+      title: 'Sector A — Alpha Block',
+      sub: '40 units · Masjid (300 cap) · School · Park · 24/7 Pharmacy',
+      school: 'Lumina School — A', pharm: 'Pharmacy — A', mosque: 'Sector A Masjid', park: 'A Community Park',
+    },
+    B: {
+      color: '#2980b9', badgeBg: 'rgba(41,128,185,0.25)', border: '#2980b9',
+      title: 'Sector B — Bravo Block',
+      sub: '40 units · Masjid (300 cap) · School · Leisure Park · Pharmacy',
+      school: 'Lumina School — B', pharm: 'Pharmacy — B', mosque: 'Sector B Masjid', park: 'B Leisure Park',
+    },
+    C: {
+      color: '#9b59b6', badgeBg: 'rgba(155,89,182,0.25)', border: '#9b59b6',
+      title: 'Sector C — Charlie Block',
+      sub: '40 units · Masjid (300 cap) · School · Green Zone · Pharmacy',
+      school: 'Lumina School — C', pharm: 'Pharmacy — C', mosque: 'Sector C Masjid', park: 'C Green Zone',
+    }
+  };
+
+  const plotStates = ['available','available','available','sold','available','reserved','available','available','sold','available','available','available'];
+
+  function genQuad(elId, color) {
+    const el = document.getElementById(elId);
+    el.innerHTML = '';
+    plotStates.slice(0,8).forEach((st, i) => {
+      const div = document.createElement('div');
+      div.className = `sq-house sq-${st}`;
+      div.title = st.charAt(0).toUpperCase()+st.slice(1);
+      div.style.borderColor = color + '55';
+      div.innerHTML = st === 'sold' ? '🧱' : (st === 'reserved' ? '⏸️' : '🏡');
+      el.appendChild(div);
+    });
+  }
+
+  function openSector(id) {
+    const s = SECTORS[id];
+    document.getElementById('modalBadge').textContent = id;
+    document.getElementById('modalBadge').style.background = s.badgeBg;
+    document.getElementById('modalBadge').style.border = '2px solid '+s.border;
+    document.getElementById('modalBadge').style.boxShadow = '0 0 16px '+s.color+'55';
+    document.getElementById('modalTitle').textContent = s.title;
+    document.getElementById('modalSub').textContent = s.sub;
+    document.getElementById('sgSchool').textContent = s.school;
+    document.getElementById('sgPharm').textContent = s.pharm;
+    document.getElementById('sgMosque').textContent = s.mosque;
+    document.getElementById('sgPark').textContent = s.park;
+    ['quadTL','quadTR','quadBL','quadBR'].forEach(q => genQuad(q, s.color));
+    document.getElementById('sectorModal').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('sectorModal').classList.remove('active');
+  }
+
+  // ── PIN TOOLTIP ──
+  let toastTimer;
+  function pinClick(title, loc, desc) {
+    const toast = document.getElementById('pinToast');
+    document.getElementById('pinToastTitle').textContent = title;
+    document.getElementById('pinToastLoc').textContent = '📍 ' + loc;
+    document.getElementById('pinToastDesc').textContent = desc;
+    toast.style.opacity = '1';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toast.style.opacity = '0'; }, 4000);
+  }
+
+  // ESC key
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Lumina Green City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0f2547; --navy2: #0a1d38; --gold: #c9973a; --gold2: #e0b96a;
+      --text: #1c2b3a; --muted: #7a8a99; --border: #e4e9f0;
+      --white: #ffffff; --cream: #f8f6f1; --green: #2d9e6b; --red: #c0392b;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f0f2f5; color: var(--text); min-height: 100vh; }
+
+    /* ── Login Overlay ── */
+    .login-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: linear-gradient(135deg, #071224 0%, var(--navy) 50%, #1a3a6b 100%);
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .login-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .login-card {
+      background: var(--white); border-radius: 20px; padding: 48px 40px;
+      width: 100%; max-width: 420px; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .login-card .logo-icon {
+      width: 56px; height: 56px; background: linear-gradient(135deg, var(--navy), #1a3a6b);
+      border-radius: 16px; display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin: 0 auto 20px; box-shadow: 0 4px 16px rgba(15,37,71,0.3);
+    }
+    .login-card h2 {
+      font-family: 'Playfair Display', serif; font-size: 24px; color: var(--navy); margin-bottom: 6px;
+    }
+    .login-card .sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .login-card label {
+      display: block; text-align: left; font-size: 11px; font-weight: 700;
+      letter-spacing: 0.8px; text-transform: uppercase; color: var(--navy); margin-bottom: 6px;
+    }
+    .login-card input {
+      width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 14px; font-family: 'Inter', sans-serif; outline: none;
+      background: var(--cream); margin-bottom: 16px; transition: border-color 0.2s;
+    }
+    .login-card input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,151,58,0.1); }
+    .login-btn {
+      width: 100%; padding: 14px; background: linear-gradient(135deg, var(--gold), var(--gold2));
+      border: none; border-radius: 10px; color: var(--navy); font-weight: 700;
+      font-size: 14px; cursor: pointer; transition: all 0.25s;
+      font-family: 'Inter', sans-serif; letter-spacing: 0.3px;
+    }
+    .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,151,58,0.35); }
+    .login-error {
+      color: var(--red); font-size: 12px; margin-top: 12px; display: none;
+      padding: 8px 14px; background: rgba(192,57,43,0.08); border-radius: 8px;
+    }
+    .login-error.show { display: block; animation: shake 0.4s; }
+    @keyframes shake { 0%,100%{ transform: translateX(0); } 25%{ transform: translateX(-6px); } 75%{ transform: translateX(6px); } }
+    .login-hint { font-size: 11px; color: var(--muted); margin-top: 16px; }
+    .login-hint code { background: var(--cream); padding: 2px 6px; border-radius: 4px; font-size: 11px; }
+
+    /* ── Top Nav Bar ── */
+    .admin-nav {
+      background: linear-gradient(135deg, #071224, var(--navy));
+      padding: 0 32px; height: 60px; display: flex; align-items: center;
+      justify-content: space-between; box-shadow: 0 2px 16px rgba(15,37,71,0.3);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .admin-nav .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Playfair Display', serif; font-size: 16px; color: #fff; font-weight: 700;
+    }
+    .admin-nav .brand span { color: var(--gold); }
+    .admin-nav .badge {
+      background: rgba(201,151,58,0.15); color: var(--gold); padding: 4px 12px;
+      border-radius: 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+    }
+    .admin-nav .nav-right { display: flex; align-items: center; gap: 12px; }
+    .admin-nav .home-link {
+      color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+      padding: 6px 14px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .admin-nav .home-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .logout-link {
+      color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px;
+      padding: 6px 14px; border-radius: 8px; transition: all 0.2s; cursor: pointer;
+      background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.3);
+    }
+    .logout-link:hover { background: rgba(192,57,43,0.4); color: #fff; }
+
+    /* ── Dashboard Content ── */
+    .dashboard { max-width: 1200px; margin: 0 auto; padding: 28px 32px; }
+
+    /* ── Stats Cards ── */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+      padding: 20px; text-align: center; transition: all 0.25s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .stat-card .icon {
+      width: 40px; height: 40px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 20px;
+    }
+    .stat-card .icon.blue { background: rgba(15,37,71,0.08); }
+    .stat-card .icon.gold { background: rgba(201,151,58,0.12); }
+    .stat-card .icon.green { background: rgba(45,158,107,0.1); }
+    .stat-card .icon.amber { background: rgba(230,168,23,0.1); }
+    .stat-card .icon.purple { background: rgba(142,68,173,0.1); }
+    .stat-card .val {
+      font-family: 'Playfair Display', serif; font-size: 28px;
+      color: var(--navy); font-weight: 700; line-height: 1;
+    }
+    .stat-card .lbl {
+      font-size: 11px; color: var(--muted); margin-top: 6px;
+      font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+    }
+
+    /* ── Section Tabs ── */
+    .section-tabs {
+      display: flex; gap: 0; margin-bottom: 20px; background: var(--white);
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    }
+    .tab-btn {
+      flex: 1; padding: 14px 20px; border: none; background: transparent;
+      font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer;
+      transition: all 0.2s; font-family: 'Inter', sans-serif; letter-spacing: 0.3px;
+      border-bottom: 3px solid transparent;
+    }
+    .tab-btn:hover { color: var(--navy); background: var(--cream); }
+    .tab-btn.active { color: var(--navy); background: var(--cream); border-bottom-color: var(--gold); }
+
+    /* ── Table Cards ── */
+    .table-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden; margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .table-card .card-header {
+      padding: 20px 24px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .table-card .card-header h3 {
+      font-family: 'Playfair Display', serif; font-size: 18px; color: var(--navy);
+    }
+    .table-card .card-header .count {
+      background: var(--cream); color: var(--navy); padding: 4px 12px;
+      border-radius: 8px; font-size: 12px; font-weight: 600;
+    }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .data-table th {
+      background: #f8fafc; padding: 12px 16px; text-align: left;
+      font-weight: 700; font-size: 11px; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border);
+    }
+    .data-table td {
+      padding: 13px 16px; border-bottom: 1px solid var(--border); color: var(--text);
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: #fafbfc; }
+    .data-table td.name { font-weight: 600; color: var(--navy); }
+    .data-table td.msg {
+      max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      color: var(--muted); font-style: italic;
+    }
+    .status-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.3px;
+    }
+    .status-badge.pending { background: rgba(230,168,23,0.12); color: #c8890a; }
+    .status-badge.approved { background: rgba(45,158,107,0.12); color: var(--green); }
+
+    /* ── Empty State ── */
+    .empty-state {
+      text-align: center; padding: 48px 24px; color: var(--muted);
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+    .empty-state p { font-size: 14px; }
+
+    /* ── Hidden ── */
+    .hidden-section { display: none; }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard { padding: 16px; }
+      .data-table { font-size: 12px; }
+      .data-table td, .data-table th { padding: 10px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ LOGIN OVERLAY ═══ -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-card">
+    <div class="logo-icon">🔒</div>
+    <h2>Admin Panel</h2>
+    <p class="sub">Sign in to access the Lumina Green City dashboard</p>
+    <form onsubmit="adminLogin(event)">
+      <label>Username</label>
+      <input type="text" id="admin-user" placeholder="Enter username" autocomplete="off">
+      <label>Password</label>
+      <input type="password" id="admin-pass" placeholder="Enter password">
+      <button type="submit" class="login-btn">Sign In →</button>
+    </form>
+    <div class="login-error" id="login-error">Invalid username or password. Please try again.</div>
+    <p class="login-hint">Default: <code>admin</code> / <code>admin123</code></p>
+  </div>
+</div>
+
+<!-- ═══ NAV BAR ═══ -->
+<nav class="admin-nav" id="adminNav" style="display:none;">
+  <div class="brand">
+    <span>Lumina <span>Green</span> City</span>
+    <span class="badge">ADMIN</span>
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="home-link">← Back to Site</a>
+    <span class="logout-link" onclick="adminLogout()">Logout</span>
+  </div>
+</nav>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="dashboard" id="dashboardContent" style="display:none;">
+
+  <!-- Stats Strip -->
+  <div class="stats-grid" id="statsGrid">
+    <div class="stat-card">
+      <div class="icon blue">📬</div>
+      <div class="val" id="stat-contacts">0</div>
+      <div class="lbl">Contact Messages</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon gold">📋</div>
+      <div class="val" id="stat-applications">0</div>
+      <div class="lbl">Applications</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon amber">⏳</div>
+      <div class="val" id="stat-pending">0</div>
+      <div class="lbl">Pending Review</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon green">🏠</div>
+      <div class="val" id="stat-properties">0</div>
+      <div class="lbl">Total Properties</div>
+    </div>
+    <div class="stat-card">
+      <div class="icon purple">✅</div>
+      <div class="val" id="stat-available">0</div>
+      <div class="lbl">Available Units</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="section-tabs">
+    <button class="tab-btn active" onclick="switchTab('applications')">📋 Housing Applications</button>
+    <button class="tab-btn" onclick="switchTab('contacts')">📬 Contact Messages</button>
+  </div>
+
+  <!-- Applications Table -->
+  <div class="table-card" id="applications-section">
+    <div class="card-header">
+      <h3>Housing Applications</h3>
+      <span class="count" id="app-count">0 entries</span>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>CNIC</th>
+          <th>Property Type</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="app-tbody">
+        <tr><td colspan="7"><div class="empty-state"><div class="icon">📋</div><p>No applications yet.</p></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Contacts Table -->
+  <div class="table-card hidden-section" id="contacts-section">
+    <div class="card-header">
+      <h3>Contact Messages</h3>
+      <span class="count" id="contact-count">0 entries</span>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="contact-tbody">
+        <tr><td colspan="5"><div class="empty-state"><div class="icon">📬</div><p>No messages yet.</p></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  let adminAuth = '';
+
+  // ── Admin Login ──
+  async function adminLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('admin-user').value.trim();
+    const password = document.getElementById('admin-pass').value.trim();
+    const errEl = document.getElementById('login-error');
+    errEl.classList.remove('show');
+
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        adminAuth = password;
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('adminNav').style.display = 'flex';
+        document.getElementById('dashboardContent').style.display = 'block';
+        loadDashboardData();
+      } else {
+        errEl.classList.add('show');
+      }
+    } catch (err) {
+      // Fallback: client-side check if server is down
+      if (username === 'admin' && password === 'admin123') {
+        adminAuth = password;
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('adminNav').style.display = 'flex';
+        document.getElementById('dashboardContent').style.display = 'block';
+        loadDashboardData();
+      } else {
+        errEl.classList.add('show');
+      }
+    }
+  }
+
+  function adminLogout() {
+    adminAuth = '';
+    document.getElementById('loginOverlay').classList.remove('hidden');
+    document.getElementById('adminNav').style.display = 'none';
+    document.getElementById('dashboardContent').style.display = 'none';
+    document.getElementById('admin-user').value = '';
+    document.getElementById('admin-pass').value = '';
+  }
+
+  // ── Load Dashboard Data ──
+  async function loadDashboardData() {
+    try {
+      const res = await fetch(`/api/admin/data?auth=${adminAuth}`);
+      const data = await res.json();
+
+      if (data.error) {
+        alert('Unauthorized. Please login again.');
+        adminLogout();
+        return;
+      }
+
+      // Update stats
+      document.getElementById('stat-contacts').textContent = data.stats.total_contacts;
+      document.getElementById('stat-applications').textContent = data.stats.total_applications;
+      document.getElementById('stat-pending').textContent = data.stats.pending;
+      document.getElementById('stat-properties').textContent = data.stats.total_properties;
+      document.getElementById('stat-available').textContent = data.stats.available;
+
+      // Populate applications table
+      const appTbody = document.getElementById('app-tbody');
+      document.getElementById('app-count').textContent = data.applications.length + ' entries';
+      if (data.applications.length === 0) {
+        appTbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="icon">📋</div><p>No applications yet. They will appear here once users submit via the Apply page.</p></div></td></tr>';
+      } else {
+        appTbody.innerHTML = data.applications.map((app, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td class="name">${escapeHtml(app.name)}</td>
+            <td>${escapeHtml(app.cnic)}</td>
+            <td>${escapeHtml(app.type)}</td>
+            <td>${escapeHtml(app.phone)}</td>
+            <td><span class="status-badge ${app.status === 'Pending' ? 'pending' : 'approved'}">${app.status}</span></td>
+            <td>${app.date}</td>
+          </tr>
+        `).join('');
+      }
+
+      // Populate contacts table
+      const contactTbody = document.getElementById('contact-tbody');
+      document.getElementById('contact-count').textContent = data.contacts.length + ' entries';
+      if (data.contacts.length === 0) {
+        contactTbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="icon">📬</div><p>No messages yet. They will appear here once users submit via the Contact page.</p></div></td></tr>';
+      } else {
+        contactTbody.innerHTML = data.contacts.map((c, i) => `
+          <tr>
+            <td>${i + 1}</td>
+            <td class="name">${escapeHtml(c.name)}</td>
+            <td>${escapeHtml(c.email)}</td>
+            <td class="msg" title="${escapeHtml(c.message)}">${escapeHtml(c.message)}</td>
+            <td>${c.date}</td>
+          </tr>
+        `).join('');
+      }
+
+    } catch (err) {
+      console.error('Failed to load admin data:', err);
+    }
+  }
+
+  // ── Tab Switching ──
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    if (tab === 'applications') {
+      document.getElementById('applications-section').classList.remove('hidden-section');
+      document.getElementById('contacts-section').classList.add('hidden-section');
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    } else {
+      document.getElementById('applications-section').classList.add('hidden-section');
+      document.getElementById('contacts-section').classList.remove('hidden-section');
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    }
+  }
+
+  // ── XSS Protection ──
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+
+</body>
+</html>

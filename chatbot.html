@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Property Assistant — Lumina Green City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --navy: #0f2547; --navy2: #0a1d38; --gold: #c9973a; --gold2: #e0b96a;
+      --text: #1c2b3a; --muted: #7a8a99; --border: #e4e9f0;
+      --white: #ffffff; --cream: #f8f6f1;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f4f5f8; color: var(--text); height: 100vh; display: flex; flex-direction: column; }
+
+    /* Back to home nav strip */
+    .chat-nav-strip { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 40px; display: flex; align-items: center; justify-content: space-between; }
+    .back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--navy); text-decoration: none; font-size: 13px; font-weight: 600; padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); transition: all 0.2s; }
+    .back-btn:hover { background: #f8fafc; border-color: var(--navy); transform: translateX(-2px); }
+    .nav-brand { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--navy); }
+    .nav-brand span { color: var(--gold); }
+
+    /* Chat workspace container layout */
+    .chat-wrapper { flex: 1; max-width: 800px; width: 100%; margin: 24px auto; background: var(--white); border: 1px solid var(--border); border-radius: 14px; display: flex; flex-direction: column; box-shadow: 0 4px 24px rgba(15,37,71,0.04); overflow: hidden; }
+    .chat-header { background: linear-gradient(135deg, #071224, var(--navy)); color: var(--white); padding: 20px 24px; display: flex; align-items: center; gap: 12px; }
+    .chat-header .avatar { width: 36px; height: 36px; background: rgba(201,151,58,0.15); border: 1px solid rgba(201,151,58,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .chat-header h2 { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; }
+    .chat-header p { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+
+    /* Message Area styling */
+    .message-area { flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+    .msg-bubble { max-width: 75%; padding: 12px 16px; border-radius: 12px; font-size: 13.5px; line-height: 1.55; font-family: 'Inter', sans-serif; }
+    .msg-bubble.bot { background: var(--cream); color: var(--navy); border-top-left-radius: 2px; border: 1px solid rgba(201,151,58,0.15); align-self: flex-start; }
+    .msg-bubble.user { background: var(--navy); color: var(--white); border-top-right-radius: 2px; align-self: flex-end; }
+    
+    /* Loading indicator dots */
+    .typing-loader { display: inline-flex; gap: 4px; align-items: center; padding: 6px 12px; }
+    .typing-loader span { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: blink 1.4s infinite both; }
+    .typing-loader span:nth-child(2) { animation-delay: .2s; }
+    .typing-loader span:nth-child(3) { animation-delay: .4s; }
+    @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
+
+    /* Chat panel entry line input */
+    .chat-input-bar { padding: 16px 24px; border-top: 1px solid var(--border); background: #f8fafc; display: flex; gap: 12px; align-items: center; }
+    .chat-input-bar input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; font-size: 13.5px; font-family: 'Inter', sans-serif; color: var(--text); outline: none; background: var(--white); transition: border-color 0.2s; }
+    .chat-input-bar input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,151,58,0.08); }
+    .send-btn { background: var(--gold); color: var(--navy); border: none; padding: 12px 20px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .send-btn:hover { background: var(--gold2); transform: translateY(-1px); }
+
+    /* Quick suggestions */
+    .quick-suggestions { padding: 8px 24px 0; display: flex; gap: 8px; flex-wrap: wrap; }
+    .quick-btn { background: rgba(201,151,58,0.08); border: 1px solid rgba(201,151,58,0.2); color: var(--navy); padding: 6px 14px; border-radius: 20px; font-size: 11.5px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+    .quick-btn:hover { background: rgba(201,151,58,0.18); border-color: var(--gold); transform: translateY(-1px); }
+
+    @media(max-width: 768px) {
+      .chat-nav-strip { padding: 12px 16px; }
+      .chat-wrapper { margin: 0; border-radius: 0; border: none; }
+      .msg-bubble { max-width: 85%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-nav-strip">
+  <a href="index.html" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    Back to Home
+  </a>
+  <div class="nav-brand">Lumina <span>Green</span> City</div>
+</div>
+
+<div class="chat-wrapper">
+  <div class="chat-header">
+    <div class="avatar">🤖</div>
+    <div>
+      <h2>AI Property Assistant</h2>
+      <p>Online — Ready to guide your real estate journey</p>
+    </div>
+  </div>
+
+  <div class="message-area" id="chatArea">
+    <div class="msg-bubble bot">
+      Hello! Welcome to Lumina Green City. I am your specialized smart housing assistant. How can I help you find your dream plot, house, or learn about our premium community today?
+    </div>
+  </div>
+
+  <div class="quick-suggestions">
+    <button class="quick-btn" onclick="quickAsk('What are the cheapest plots?')">💰 Cheapest Plots</button>
+    <button class="quick-btn" onclick="quickAsk('Tell me about Sector A')">🏘️ Sector A</button>
+    <button class="quick-btn" onclick="quickAsk('Show me luxury options')">👑 Luxury</button>
+    <button class="quick-btn" onclick="quickAsk('What facilities are available?')">✨ Facilities</button>
+    <button class="quick-btn" onclick="quickAsk('How to apply?')">📝 Apply</button>
+    <button class="quick-btn" onclick="quickAsk('5 Marla price')">🏠 5 Marla</button>
+  </div>
+
+  <div class="chat-input-bar">
+    <input type="text" id="userInput" placeholder="Ask about Sector A, plot sizes, pricing, facilities..." onkeydown="if(event.key==='Enter') sendMessage()">
+    <button class="send-btn" onclick="sendMessage()">
+      Send
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  function quickAsk(text) {
+    document.getElementById('userInput').value = text;
+    sendMessage();
+  }
+
+  // ── Local keyword-matching fallback (mirrors Python Module 11 logic) ──
+  function getLocalReply(msg) {
+    msg = msg.toLowerCase();
+
+    if (msg.includes('hello') || msg.includes('hi') || msg.includes('hey') || msg.includes('salam'))
+      return "Hello! Welcome to Lumina Green City 🏡\nI can help you with:\n• Plot prices & sizes\n• Sector A, B, C details\n• Facilities & amenities\n• How to apply\n• Smart recommendations\n\nWhat would you like to know?";
+
+    if (msg.includes('cheap') || msg.includes('affordable') || msg.includes('lowest'))
+      return "💰 Most Affordable Plots — Lumina Green City:\n\n• 3 Marla plots start from PKR 2,500,000 (Sector A)\n• 3 Marla in Sector B from PKR 2,625,000\n• 3 Marla in Sector C from PKR 2,750,000\n\nThese are the most budget-friendly options available. Use Smart Search to filter by your exact budget!";
+
+    if (msg.includes('sector a') || msg.includes('alpha'))
+      return "🏘️ Sector A (Alpha) — Overview:\n\n• Total Plots: 40\n• Sizes: 3, 5, 7 & 10 Marla\n• Base Price Multiplier: 1.0× (most affordable sector)\n• Amenities: 2 Parks, 1 Grand Jamia Masjid, 1 School\n• Location: Main entrance zone — prime access\n\nSector A is our most accessible and popular sector!";
+
+    if (msg.includes('sector b') || msg.includes('bravo'))
+      return "🏘️ Sector B (Bravo) — Overview:\n\n• Total Plots: 40\n• Sizes: 3, 5, 7 & 10 Marla\n• Base Price Multiplier: 1.05× (mid-range)\n• Amenities: 2 Parks, 1 Masjid, 1 School\n• Location: Central zone — quiet & well-connected\n\nSector B offers a great balance of price and location!";
+
+    if (msg.includes('sector c') || msg.includes('charlie'))
+      return "🏘️ Sector C (Charlie) — Overview:\n\n• Total Plots: 40\n• Sizes: 3, 5, 7 & 10 Marla\n• Base Price Multiplier: 1.10× (premium)\n• Amenities: 2 Parks, 1 Masjid, 1 School\n• Location: Far end — most serene & spacious\n\nSector C is ideal for buyers wanting a premium peaceful environment!";
+
+    if (msg.includes('facilit') || msg.includes('amenit'))
+      return "✨ Facilities at Lumina Green City:\n\n🕌 Mosques — Grand Jamia Masjid + sector masjids in every sector\n🌳 Parks — 2 green parks per sector (6 total)\n🏫 Schools — 1 school per sector with easy access\n🛡️ Security — 24/7 security posts at all entry points\n💡 Utilities — Electricity, gas & water connections included\n🛣️ Roads — Wide carpeted roads throughout\n\nAll facilities are within walking distance of every plot!";
+
+    if (msg.includes('apply') || msg.includes('application') || msg.includes('how to'))
+      return "📝 How to Apply for a Plot:\n\n1️⃣ Use Smart Search to find a plot that matches your budget\n2️⃣ Check availability in the Availability Tracker\n3️⃣ Fill in the Contact Form with your details\n4️⃣ Our team will reach out within 24 hours\n5️⃣ Visit the office to complete documentation\n\n📞 Office Hours: Mon–Sat, 9am–6pm\n📧 Contact us via the Contact page for any queries!";
+
+    if (msg.includes('5 marla') || (msg.includes('5') && msg.includes('marla')))
+      return "🏠 5 Marla Plot Pricing:\n\n• Sector A: PKR 4,000,000 (base)\n• Sector B: PKR 4,200,000 (1.05×)\n• Sector C: PKR 4,400,000 (1.10×)\n\n💡 Premiums:\n• Corner plot: +10%\n• Road-facing: +5%\n\nUse the Price Calculator for an exact figure with your preferred features!";
+
+    if (msg.includes('3 marla') || (msg.includes('3') && msg.includes('marla')))
+      return "🏠 3 Marla Plot Pricing:\n\n• Sector A: PKR 2,500,000 (base)\n• Sector B: PKR 2,625,000 (1.05×)\n• Sector C: PKR 2,750,000 (1.10×)\n\n💡 Premiums: Corner +10% | Road-facing +5%\n\nOur most affordable size — great for first-time buyers!";
+
+    if (msg.includes('7 marla') || (msg.includes('7') && msg.includes('marla')))
+      return "🏠 7 Marla Plot Pricing:\n\n• Sector A: PKR 5,500,000 (base)\n• Sector B: PKR 5,775,000 (1.05×)\n• Sector C: PKR 6,050,000 (1.10×)\n\n💡 Premiums: Corner +10% | Road-facing +5%\n\nA popular mid-size option with great value!";
+
+    if (msg.includes('10 marla') || (msg.includes('10') && msg.includes('marla')))
+      return "🏠 10 Marla Plot Pricing:\n\n• Sector A: PKR 7,500,000 (base)\n• Sector B: PKR 7,875,000 (1.05×)\n• Sector C: PKR 8,250,000 (1.10×)\n\n💡 Premiums: Corner +10% | Road-facing +5%\n\nOur largest plots — perfect for spacious dream homes!";
+
+    if (msg.includes('luxury') || msg.includes('premium') || msg.includes('best'))
+      return "👑 Luxury Options at Lumina Green City:\n\n• 10 Marla Corner Plot — Sector C: PKR ~9,075,000\n• 7 Marla Road-Facing — Sector C: PKR ~6,352,500\n• 10 Marla Road-Facing — Sector B: PKR ~8,268,750\n\n🌟 All luxury plots feature:\n✔ Wide road frontage\n✔ Near parks & mosques\n✔ Premium sector location\n\nUse Smart Recommendation for your personalized top picks!";
+
+    if (msg.includes('price') || msg.includes('cost') || msg.includes('how much'))
+      return "💵 Plot Pricing Overview — Lumina Green City:\n\n| Size    | Sector A      | Sector B      | Sector C      |\n|---------|---------------|---------------|---------------|\n| 3 Marla | PKR 2,500,000 | PKR 2,625,000 | PKR 2,750,000 |\n| 5 Marla | PKR 4,000,000 | PKR 4,200,000 | PKR 4,400,000 |\n| 7 Marla | PKR 5,500,000 | PKR 5,775,000 | PKR 6,050,000 |\n| 10 Marla| PKR 7,500,000 | PKR 7,875,000 | PKR 8,250,000 |\n\n💡 Corner plots: +10% | Road-facing: +5%\nUse the Price Calculator for exact figures!";
+
+    if (msg.includes('available') || msg.includes('availability'))
+      return "🟢 Plot Availability — Current Summary:\n\n• Available: 72 plots (Green)\n• Reserved: 30 plots (Yellow)\n• Sold: 18 plots (Red)\n\nCheck the Availability Tracker for a live color-coded grid of all 120 plots. Green = available right now!";
+
+    if (msg.includes('mosque') || msg.includes('masjid'))
+      return "🕌 Mosques in Lumina Green City:\n\n• Sector A: Grand Jamia Masjid (Central) — capacity 500+\n• Sector A: Block 3 Masjid — capacity 150\n• Sector B: Block 2 Masjid — capacity 200\n• Sector C: Block 1 Masjid — capacity 175\n\nAll masjids are within 150–300m of every plot!";
+
+    if (msg.includes('school') || msg.includes('education'))
+      return "🏫 Schools near Lumina Green City:\n\n• Sector A: Lumina Public School — Grades 1–10\n• Sector B: Green City Academy — Grades 1–8\n• Sector C: City Grammar School — Grades 1–12\n\nAll schools are within the scheme boundary — safe walking distance for children!";
+
+    if (msg.includes('park') || msg.includes('green') || msg.includes('garden'))
+      return "🌳 Parks & Green Spaces:\n\n• Sector A: Central Park (2 acres) + Mini Park\n• Sector B: Family Park (1.5 acres) + Jogging Track\n• Sector C: Botanical Garden (2.5 acres) + Playground\n\nAll residents have a park within 200–400m of their plot!";
+
+    if (msg.includes('corner'))
+      return "🏠 Corner Plot Premium:\n\nCorner plots are priced at +10% above the base price.\n\nExample — 5 Marla Sector A:\n• Base: PKR 4,000,000\n• Corner Premium: +PKR 400,000\n• Final: PKR 4,400,000\n\nCorner plots offer more natural light, wider frontage, and better resale value!";
+
+    if (msg.includes('road'))
+      return "🛣️ Road-Facing Plot Premium:\n\nRoad-facing plots are priced at +5% above the base price.\n\nExample — 5 Marla Sector A:\n• Base: PKR 4,000,000\n• Road Premium: +PKR 200,000\n• Final: PKR 4,200,000\n\nRoad-facing plots offer easier access and higher visibility!";
+
+    if (msg.includes('recommend') || msg.includes('suggest') || msg.includes('which'))
+      return "🤖 Smart Recommendation:\n\nTell me your preferences and I will find your best match!\n\nOr use our Smart Recommendation feature:\n1. Enter your budget\n2. Select preferred size\n3. Choose sector preference\n4. Set facility priorities\n\nThe system will score all 120 plots and show you the Top 3 best matches!";
+
+    if (msg.includes('search') || msg.includes('filter') || msg.includes('find'))
+      return "🔍 Smart Search:\n\nUse the Smart Search module to filter plots by:\n• Budget (max price)\n• Plot size (3 / 5 / 7 / 10 Marla)\n• Preferred sector (A, B, or C)\n\nResults update instantly — showing only plots that match ALL your criteria simultaneously!";
+
+    if (msg.includes('contact') || msg.includes('office') || msg.includes('reach'))
+      return "📞 Contact Lumina Green City:\n\n🏢 Office: Plot 1, Main Boulevard, Lumina Green City\n📱 Phone: +92-300-1234567\n📧 Email: info@luminagreencity.com\n⏰ Hours: Monday–Saturday, 9:00 AM – 6:00 PM\n\nOr fill in the Contact Form on our website — we respond within 24 hours!";
+
+    if (msg.includes('bye') || msg.includes('goodbye') || msg.includes('thanks') || msg.includes('thank'))
+      return "Thank you for visiting Lumina Green City! 🏡\nWe hope to welcome you to our community soon.\nFeel free to return anytime you have questions. Good luck with your property search! 😊";
+
+    return "I'm sorry, I didn't quite understand that. You can ask me about:\n\n• 💰 Plot prices & sizes\n• 🏘️ Sector A, B, or C details\n• ✨ Facilities & amenities\n• 📝 How to apply\n• 🟢 Plot availability\n• 🕌 Mosques, schools, parks\n• 👑 Luxury or affordable options\n\nTry one of the quick buttons below or rephrase your question!";
+  }
+
+  async function sendMessage() {
+    const inputEl = document.getElementById('userInput');
+    const queryText = inputEl.value.trim();
+    if (!queryText) return;
+
+    // Clear input instantly
+    inputEl.value = '';
+
+    // Append and render user statement bubble
+    appendMessageBubble(queryText, 'user');
+
+    // Create and attach loading dot indicator wrapper
+    const loaderId = 'loader_' + Date.now();
+    const chatArea = document.getElementById('chatArea');
+    const loaderDiv = document.createElement('div');
+    loaderDiv.className = 'msg-bubble bot typing-loader';
+    loaderDiv.id = loaderId;
+    loaderDiv.innerHTML = '<span></span><span></span><span></span>';
+    chatArea.appendChild(loaderDiv);
+    chatArea.scrollTop = chatArea.scrollHeight;
+
+    try {
+      // Call the Flask chatbot API
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: queryText })
+      });
+
+      if (!response.ok) throw new Error('Server error');
+      const data = await response.json();
+
+      // Remove loader
+      const loader = document.getElementById(loaderId);
+      if (loader) loader.remove();
+
+      // Display bot response
+      appendMessageBubble(data.reply || getLocalReply(queryText), 'bot');
+
+    } catch (error) {
+      // Flask not running — use local keyword-matching fallback silently
+      const loader = document.getElementById(loaderId);
+      if (loader) loader.remove();
+      appendMessageBubble(getLocalReply(queryText), 'bot');
+    }
+  }
+
+  function appendMessageBubble(text, sender) {
+    const chatArea = document.getElementById('chatArea');
+    const bubble = document.createElement('div');
+    bubble.className = `msg-bubble ${sender}`;
+    
+    // Replace newline breaks cleanly into UI html line breaks
+    bubble.innerHTML = text.replace(/\n/g, '<br>');
+    
+    chatArea.appendChild(bubble);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+</script>
+
+</body>
+</html>

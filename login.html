@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Lumina Green City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body style="display:flex;">
+<div class="left-panel">
+  <div class="left-content">
+    <svg class="house-svg" viewBox="0 0 110 110" fill="none">
+      <ellipse cx="55" cy="98" rx="28" ry="5" fill="rgba(0,0,0,0.2)"/>
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(184,134,78,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#b8864e" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M55 18 L100 56 L90 56 L55 24Z" fill="rgba(184,134,78,0.08)"/>
+      <rect x="72" y="30" width="9" height="22" rx="2" fill="#0f2547" stroke="#b8864e" stroke-width="1.2"/>
+      <circle cx="76" cy="26" r="3" fill="rgba(255,255,255,0.12)"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#b8864e"/>
+      <circle cx="63" cy="83" r="1.8" fill="#0f2547"/>
+      <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(212,167,106,0.15)" stroke="#b8864e" stroke-width="1.2"/>
+      <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(212,167,106,0.15)" stroke="#b8864e" stroke-width="1.2"/>
+      <circle cx="18" cy="24" r="1.5" fill="#d4a76a" opacity="0.8"/>
+      <circle cx="90" cy="16" r="1.8" fill="#d4a76a" opacity="0.7"/>
+    </svg>
+    <div class="brand-name">Lumina <span>Green</span> City</div>
+    <div class="brand-tag">Premium Housing Scheme</div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Sectors</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-num">250+</div><div class="stat-lbl">Plots</div></div>
+      <div class="stat-div"></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Facilities</div></div>
+    </div>
+  </div>
+  <div class="trust">Secure · Trusted · Government Verified</div>
+</div>
+
+<div class="right-panel">
+  <div class="form-box">
+    <div class="form-heading">Welcome back</div>
+    <div class="form-sub">Sign in to your Lumina Green City account</div>
+    <div class="accent"></div>
+    <form onsubmit="handleLogin(event)">
+      <div class="field">
+        <label>CNIC Number</label>
+        <div class="iw">
+          <svg class="iico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h4M7 13h2"/></svg>
+          <input type="text" id="cnic" placeholder="12345-1234567-1" maxlength="15" oninput="fmtCnic(this)" autocomplete="off"/>
+        </div>
+        <div class="hint">Format: 12345-1234567-1</div>
+        <div class="err" id="cnic-err">Please enter a valid CNIC number</div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="iw">
+          <svg class="iico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <input type="password" id="password" placeholder="Enter your password"/>
+        </div>
+        <div class="err" id="pass-err">Incorrect CNIC or password</div>
+      </div>
+      <button type="submit" class="btn">Sign In →</button>
+    </form>
+    <div class="divider"><span>OR</span></div>
+    <div class="reg-link">New user? <a href="register.html">Create an account</a></div>
+    <div class="copy">Lumina Green City © 2025 · All rights reserved</div>
+  </div>
+</div>
+
+<script>
+  function fmtCnic(inp) {
+    let v = inp.value.replace(/\D/g, '');
+    if (v.length > 5 && v.length <= 12) v = v.slice(0,5) + '-' + v.slice(5);
+    else if (v.length > 12) v = v.slice(0,5) + '-' + v.slice(5,12) + '-' + v.slice(12,13);
+    inp.value = v;
+  }
+  function handleLogin(e) {
+    e.preventDefault();
+    const cnic = document.getElementById('cnic').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    document.getElementById('cnic-err').classList.remove('show');
+    document.getElementById('pass-err').classList.remove('show');
+    if (!/^\d{5}-\d{7}-\d$/.test(cnic)) { document.getElementById('cnic-err').classList.add('show'); return; }
+    if (cnic === '12345-1234567-1' && pass === 'admin123') { localStorage.setItem('loggedInUser', 'admin'); window.location.href = 'index.html'; return; }
+    const saved = localStorage.getItem('user_' + cnic);
+    if (saved) { const u = JSON.parse(saved); if (u.password === pass) { localStorage.setItem('loggedInUser', cnic); localStorage.setItem('loggedInName', u.name); window.location.href = 'index.html'; return; } }
+    document.getElementById('pass-err').classList.add('show');
+  }
+</script>
+</body>
+</html>

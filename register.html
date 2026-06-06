@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — Lumina Green City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body style="display:flex;">
+<div class="left-panel" style="width:40%;">
+  <div class="left-content">
+    <svg class="house-svg" viewBox="0 0 110 110" fill="none">
+      <ellipse cx="55" cy="98" rx="28" ry="5" fill="rgba(0,0,0,0.2)"/>
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(184,134,78,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#b8864e" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="72" y="30" width="9" height="22" rx="2" fill="#0f2547" stroke="#b8864e" stroke-width="1.2"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#b8864e"/>
+      <circle cx="63" cy="83" r="1.8" fill="#0f2547"/>
+      <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(212,167,106,0.15)" stroke="#b8864e" stroke-width="1.2"/>
+      <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(212,167,106,0.15)" stroke="#b8864e" stroke-width="1.2"/>
+      <circle cx="18" cy="24" r="1.5" fill="#d4a76a" opacity="0.8"/>
+      <circle cx="90" cy="16" r="1.8" fill="#d4a76a" opacity="0.7"/>
+    </svg>
+    <div class="brand-name">Lumina <span>Green</span> City</div>
+    <div class="brand-tag">Premium Housing Scheme</div>
+    <ul class="steps-list">
+      <li><div class="step-dot">1</div> Fill your details & CNIC</li>
+      <li><div class="step-dot">2</div> Create a secure password</li>
+      <li><div class="step-dot">3</div> Login & browse plots</li>
+    </ul>
+  </div>
+  <div class="trust">Secure · Trusted · Government Verified</div>
+</div>
+
+<div class="right-panel">
+  <div class="form-box">
+    <div class="form-heading">Create Account</div>
+    <div class="form-sub">Register to explore plots in Lumina Green City</div>
+    <div class="accent"></div>
+    <form onsubmit="registerUser(event)">
+      <div class="field">
+        <label>Full Name</label>
+        <div class="iw">
+          <svg class="iico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <input type="text" id="name" placeholder="Enter your full name"/>
+        </div>
+        <div class="err" id="name-err">Please enter your full name</div>
+      </div>
+      <div class="field">
+        <label>CNIC Number</label>
+        <div class="iw">
+          <svg class="iico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h4M7 13h2"/></svg>
+          <input type="text" id="cnic" placeholder="12345-1234567-1" maxlength="15" oninput="fmtCnic(this)" autocomplete="off"/>
+        </div>
+        <div class="hint">Format: 12345-1234567-1</div>
+        <div class="err" id="cnic-err">Please enter a valid CNIC number</div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="iw">
+          <svg class="iico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <input type="password" id="password" placeholder="Create a strong password"/>
+        </div>
+        <div class="err" id="pass-err">Password must be at least 6 characters</div>
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <div class="iw">
+          <svg class="iico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <input type="password" id="confirm" placeholder="Re-enter your password"/>
+        </div>
+        <div class="err" id="confirm-err">Passwords do not match</div>
+      </div>
+      <button type="submit" class="btn">Create Account →</button>
+      <div class="success-msg" id="success-msg">✓ Account created! Redirecting to login...</div>
+    </form>
+    <div class="login-link">Already have an account? <a href="login.html">Sign in here</a></div>
+    <div class="copy">Lumina Green City © 2025 · All rights reserved</div>
+  </div>
+</div>
+
+<script>
+  function fmtCnic(inp) {
+    let v = inp.value.replace(/\D/g, '');
+    if (v.length > 5 && v.length <= 12) v = v.slice(0,5) + '-' + v.slice(5);
+    else if (v.length > 12) v = v.slice(0,5) + '-' + v.slice(5,12) + '-' + v.slice(12,13);
+    inp.value = v;
+  }
+  function registerUser(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const cnic = document.getElementById('cnic').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    const confirm = document.getElementById('confirm').value.trim();
+    document.querySelectorAll('.err').forEach(el => el.classList.remove('show'));
+    document.getElementById('success-msg').classList.remove('show');
+    let valid = true;
+    if (name === '') { document.getElementById('name-err').classList.add('show'); valid = false; }
+    if (!/^\d{5}-\d{7}-\d$/.test(cnic)) { document.getElementById('cnic-err').classList.add('show'); valid = false; }
+    if (pass.length < 6) { document.getElementById('pass-err').classList.add('show'); valid = false; }
+    if (pass !== confirm) { document.getElementById('confirm-err').classList.add('show'); valid = false; }
+    if (!valid) return;
+    if (localStorage.getItem('user_' + cnic)) { document.getElementById('cnic-err').innerText = 'This CNIC is already registered!'; document.getElementById('cnic-err').classList.add('show'); return; }
+    localStorage.setItem('user_' + cnic, JSON.stringify({ name, cnic, password: pass }));
+    document.getElementById('success-msg').classList.add('show');
+    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Search — Lumina Green City</title>
+  <meta name="description" content="Use the Smart Property Search to filter by sector, size, and budget to instantly find available units at Lumina Green City.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ───────────────── NAV ───────────────── -->
+<nav class="user-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 110 110" fill="none" style="width:32px;height:32px;filter:drop-shadow(0 2px 8px rgba(201,151,58,0.55))">
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(201,151,58,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#c9973a" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#c9973a"/>
+      <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+      <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+    </svg>
+    <span class="nav-brand">Lumina <span>Green</span> City</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html"class="nav-special-btn">Home</a>
+    <a href="properties.html"class="nav-special-btn">Properties</a>
+    <a href="search.html" class="active"class="nav-special-btn">Smart Search</a>
+    <a href="facilities.html"class="nav-special-btn">Facilities</a>
+    <a href="apply.html"class="nav-special-btn">Apply</a>
+    <a href="contact.html"class="nav-special-btn">Contact</a>
+    <a href="pricechart.html" class="nav-special-btn">📊 Price Chart</a>
+    <a href="chatbot.html" class="nav-special-btn">💬 AI Assistant</a>
+    <a href="aboutus.html" class="nav-special-btn">About Us</a>
+  </div>
+  <div class="nav-right">
+    <span class="admin-badge" id="welcomeName"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ───────────────── SMART SEARCH ───────────────── -->
+<div class="section" id="search">
+  <div class="section-header">
+    <div class="section-eyebrow">Find Your Home</div>
+    <div class="section-title">Smart Property Search</div>
+    <div class="section-sub">Filter by sector, size, and budget to instantly surface available units.</div>
+  </div>
+  <div class="smart-search-wrap">
+    <div class="ss-header">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <div>
+        <h3>Smart Search</h3>
+        <p>Filters available: Sector · Size · Budget</p>
+      </div>
+    </div>
+    <div class="ss-body">
+      <div class="search-filters-grid">
+        <div class="search-field">
+          <label>Sector</label>
+          <div class="search-select-wrapper">
+            <select id="u-sector">
+              <option value="">All Sectors</option>
+              <option>Sector A</option>
+              <option>Sector B</option>
+              <option>Sector C</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-field">
+          <label>Property Size</label>
+          <div class="search-select-wrapper">
+            <select id="u-size">
+              <option value="">Any Size</option>
+              <option>5 Marla</option>
+              <option>10 Marla</option>
+              <option>1 Kanal</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-field">
+          <label>Max Budget (PKR)</label>
+          <input type="number" id="u-budget" placeholder="e.g. 15000000">
+        </div>
+        <div class="search-field">
+          <label>&nbsp;</label>
+          <button class="search-btn-new" onclick="smartSearch()">Search Now →</button>
+        </div>
+      </div>
+      <div class="search-results-box" id="u-results">
+        <p class="search-hint">Enter your preferences above and click <strong>Search Now</strong> to find matching units.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Lumina Green City © 2025 · All rights reserved · info@luminagreencity.pk · +92-311-1234567</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+

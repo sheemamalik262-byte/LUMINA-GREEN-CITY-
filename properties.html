@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Properties — Lumina Green City</title>
+  <meta name="description" content="Browse available properties and sectors at Lumina Green City — from 5 Marla homes to 1 Kanal estates across Sector A, B & C.">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ───────────────── NAV ───────────────── -->
+<nav class="user-nav">
+  <div class="nav-logo">
+    <svg viewBox="0 0 110 110" fill="none" style="width:32px;height:32px;filter:drop-shadow(0 2px 8px rgba(201,151,58,0.55))">
+      <rect x="20" y="54" width="70" height="42" rx="4" fill="#1a3a6b" stroke="rgba(201,151,58,0.4)" stroke-width="1.5"/>
+      <path d="M10 56 L55 18 L100 56" fill="#0f2547" stroke="#c9973a" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="44" y="70" width="22" height="26" rx="11" fill="#c9973a"/>
+      <rect x="24" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+      <rect x="70" y="60" width="16" height="13" rx="3" fill="rgba(201,151,58,0.12)" stroke="#c9973a" stroke-width="1.2"/>
+    </svg>
+    <span class="nav-brand">Lumina <span>Green</span> City</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html"class="nav-special-btn">Home</a>
+    <a href="properties.html" class="active"class="nav-special-btn">Properties</a>
+    <a href="search.html"class="nav-special-btn">Smart Search</a>
+    <a href="facilities.html"class="nav-special-btn">Facilities</a>
+    <a href="apply.html"class="nav-special-btn">Apply</a>
+    <a href="contact.html"class="nav-special-btn">Contact</a>
+    <a href="pricechart.html" class="nav-special-btn">📊 Price Chart</a>
+    <a href="chatbot.html" class="nav-special-btn">💬 AI Assistant</a>
+    <a href="aboutus.html" class="nav-special-btn">About Us</a>
+  </div>
+  <div class="nav-right">
+    <span class="admin-badge" id="welcomeName"></span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+<!-- ───────────────── PROPERTIES SECTION ───────────────── -->
+<div class="section alt" id="plots">
+  <div class="section-header">
+    <div class="section-eyebrow">Real Estate</div>
+    <div class="section-title">Available Properties &amp; Sectors</div>
+    <div class="section-sub">Lumina Green City offers a curated selection of residential units ranging from compact 5 Marla homes to grand 1 Kanal estates. Every property is built to exacting standards with premium finishes, underground utilities, and access to world-class amenities.</div>
+  </div>
+
+  <div class="prop-teaser">
+    <div class="prop-teaser-text">
+      <p>Each sector is a <strong>self-contained neighbourhood</strong> with its own masjid, school, and park — ensuring that your daily essentials are always within walking distance. The Grand Jamia Masjid, Lumina Grand Mall, and Central Mega Park are shared across all sectors.</p>
+      <p>Properties range from <strong>PKR 3.5M residential plots</strong> to <strong>PKR 27M+ grand 1 Kanal homes</strong> with private swimming pools, servant quarters, and multi-car porches. All homes are possession-ready with WASA, LESCO, and SNGPL connections completed.</p>
+      <p>Select a sector below to browse the full inventory — view specifications, pricing, availability status, and proximity to key facilities for every unit.</p>
+    </div>
+    <div class="prop-highlights">
+      <div class="prop-highlight-item">
+        <div class="phi-icon">🏠</div>
+        <div><div class="phi-label">5 Marla Houses</div><div class="phi-sub">2 Bed · 3 Bath · Car Porch<br>From PKR 7.0M</div></div>
+      </div>
+      <div class="prop-highlight-item">
+        <div class="phi-icon">🏡</div>
+        <div><div class="phi-label">10 Marla Houses</div><div class="phi-sub">4 Bed · Garden · Balcony<br>From PKR 11.5M</div></div>
+      </div>
+      <div class="prop-highlight-item">
+        <div class="phi-icon">🏰</div>
+        <div><div class="phi-label">1 Kanal Houses</div><div class="phi-sub">5 Bed · Private Pool<br>From PKR 24.0M</div></div>
+      </div>
+      <div class="prop-highlight-item">
+        <div class="phi-icon">📐</div>
+        <div><div class="phi-label">Residential Plots</div><div class="phi-sub">5M · 10M · 1 Kanal<br>From PKR 3.5M</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sector-select-block">
+    <p>Select a sector below to open the full property inventory with real-time availability, pricing, and detailed specifications.</p>
+    <div class="sector-btns-row">
+      <button class="sector-big-btn" onclick="goSector('A')">
+        <div class="sbb-badge">Sector A</div>
+        <div class="sbb-label">Block Alpha</div>
+        <div class="sbb-detail">40 units · Houses & Plots<br>Masjid · School · Park</div>
+        <div class="sbb-arrow">→</div>
+      </button>
+      <button class="sector-big-btn" onclick="goSector('B')">
+        <div class="sbb-badge">Sector B</div>
+        <div class="sbb-label">Block Bravo</div>
+        <div class="sbb-detail">40 units · Houses & Plots<br>Masjid · School · Park</div>
+        <div class="sbb-arrow">→</div>
+      </button>
+      <button class="sector-big-btn" onclick="goSector('C')">
+        <div class="sbb-badge">Sector C</div>
+        <div class="sbb-label">Block Charlie</div>
+        <div class="sbb-detail">40 units · Houses & Plots<br>Masjid · School · Park</div>
+        <div class="sbb-arrow">→</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer>Lumina Green City © 2025 · All rights reserved · info@luminagreencity.pk · +92-311-1234567</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
